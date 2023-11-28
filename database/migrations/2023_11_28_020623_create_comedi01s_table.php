@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comedi01s', function (Blueprint $table) {
+            // Maestro de Artículos
             $table->id();
             $table->char('ccia', 2); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios

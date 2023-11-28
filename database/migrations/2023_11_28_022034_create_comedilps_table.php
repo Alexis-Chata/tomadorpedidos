@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comedilps', function (Blueprint $table) {
+            // Lista de Precios por Artículos
             $table->id();
             $table->char('ccia', 2); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios

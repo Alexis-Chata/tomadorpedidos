@@ -11,27 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comedi36s', function (Blueprint $table) {
+        Schema::create('comedi37s', function (Blueprint $table) {
             $table->id();
             $table->char('ccia', 2); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
             $table->char('ccendis', 2); // Código Centro de Distribución
             $table->string('nped', 10); // Número de Pedido
-            $table->char('cven', 3); // Código Prevendedor
+            $table->char('citem', 3); // Item del detalle
             $table->date('fmov'); // Fecha de Pedido
-            $table->char('ccli', 8); // Código de Cliente
-            $table->char('crut', 3); // Código de Ruta
-            $table->char('clin', 2); // Código Línea Preventista
-            $table->char('cletd', 1); // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
-            $table->char('ctip', 1); // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-            $table->char('condpag', 1); // | ‘ ’: Contado | ‘C’: Crédito |
-            $table->char('cconpag', 4); // Código Política Crédito
-            $table->integer('plazo'); // Plazo de pago
-            $table->char('cflagst', 1); // Estatus Pedido: | ’ ’:Pendiente | ‘R’:Recibido |
-            $table->char('csup', 3); // Código Supervisor
+            $table->char('cequiv', 3); // Código Equivalencia Artículo (cód.corto)
+            $table->char('ccodart', 10); // Código de Artículo
+            $table->char('ctransa', 2); // Código transacción: ‘01’:Venta, ‘02’: Promoción
             $table->char('clistpr', 3); // Código Lista de Precios
-            $table->char('noped', 1); // | ‘ ‘: Pedido | ‘N’: No Pedido |
-            $table->char('cmnp', 2); // Código Motivo No Pedido
+            $table->double('qcanped', 8, 2); // Cantidad de pedido
+            $table->double('qcanprom', 8, 2); // Cantidad Promoción
+            $table->double('qpreuni', 8, 2); // Precio de artículo
+            $table->double('qimp', 12, 2); // Importe
+            $table->char('prom', 1); // ‘S’: Es una promoción
+            $table->double('qdesc', 8, 2); // Importe de descuento
+            $table->double('qpordes', 7, 3); // Porcentaje de descuento
+            $table->double('qdesisc', 9, 2); // Importe de ISC(Impuesto Selectivo al consumo)
+            $table->char('cprom', 3); // Código de Promoción
             $table->char('cuser', 10); // Nombre de Usuario
             $table->char('cidpr', 12); // Nombre del Programa
             $table->date('fupgr'); // Fecha de Actualización
@@ -46,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comedi36s');
+        Schema::dropIfExists('comedi37s');
     }
 };

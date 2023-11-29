@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('comedi37s', function (Blueprint $table) {
             // Detalle de Pedido
             $table->id();
-            $table->char('ccia', 2); // Código de Compañia
+            $table->char('ccia', 2)->default('11'); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
-            $table->char('ccendis', 2); // Código Centro de Distribución
+            $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->string('nped', 10); // Número de Pedido
             $table->char('citem', 3); // Item del detalle
             $table->date('fmov'); // Fecha de Pedido

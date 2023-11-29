@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('comedi10s', function (Blueprint $table) {
             // Maestro de Prevendedores.
             $table->id();
-            $table->char('ccia', 2); // Código de Compañia
+            $table->char('ccia', 2)->default('11'); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
-            $table->char('ccendis', 2); // Código Centro de Distribución
+            $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->char('cven', 3); // Código de Prevendedor
             $table->string('tven'); // Nombre del Prevendedor
             $table->char('password', 6); // Clave del Prevendedor
             $table->char('user', 15); // Usuario relacionado
             $table->string('nfon'); // Número de teléfono/celular
-            $table->char('clin', 2); // Código Línea Preventista
+            $table->char('clin', 2)->default('03'); // Código Línea Preventista
             $table->char('ccargo', 1); // Cargo 1:Prevendedor, 2:Supervisor, 3:Jefe de Ventas, 4: Administrador.
             $table->char('csup', 3); // Código de Supervisor/mesa
             $table->char('csisven', 3); // Código Sistema de Preventa

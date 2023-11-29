@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('comedi36s', function (Blueprint $table) {
             // Cabecera de Pedido
             $table->id();
-            $table->char('ccia', 2); // Código de Compañia
+            $table->char('ccia', 2)->default('11'); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
-            $table->char('ccendis', 2); // Código Centro de Distribución
+            $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->string('nped', 10); // Número de Pedido
             $table->char('cven', 3); // Código Prevendedor
             $table->date('fmov'); // Fecha de Pedido
             $table->char('ccli', 8); // Código de Cliente
             $table->char('crut', 3); // Código de Ruta
-            $table->char('clin', 2); // Código Línea Preventista
+            $table->char('clin', 2)->default('03'); // Código Línea Preventista
             $table->char('cletd', 1); // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
             $table->char('ctip', 1); // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
             $table->char('condpag', 1); // | ‘ ’: Contado | ‘C’: Crédito |

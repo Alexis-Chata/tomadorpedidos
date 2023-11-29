@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('comedi01s', function (Blueprint $table) {
             // Maestro de Artículos
             $table->id();
-            $table->char('ccia', 2); // Código de Compañia
+            $table->char('ccia', 2)->default('11'); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
-            $table->char('ccendis', 2); // Código Centro de Distribución
+            $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->char('cequiv', 3); // Código Equivalencia Artículo (cód.corto)
             $table->char('ccodart', 10); // Código de Artículo
             $table->string('tcor'); // Nombre de Artículo
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->char('cuni', 2); // Código Presentación del Artículo
             $table->char('cpreuni', 2); // Código Presentación de la unidad
             $table->double('qpisc', 8, 2); // Porcentaje ISC
-            $table->integer('qpigv'); // Porcentaje IGV
+            $table->double('qpigv', 8); // Porcentaje IGV
             $table->char('cuser', 10); // Nombre de Usuario
             $table->char('cidpr', 12); // Nombre del Programa
             $table->date('fupgr'); // Fecha de Actualización

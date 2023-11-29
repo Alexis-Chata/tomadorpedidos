@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('comedilps', function (Blueprint $table) {
             // Lista de Precios por Artículos
             $table->id();
-            $table->char('ccia', 2); // Código de Compañia
+            $table->char('ccia', 2)->default('11'); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
-            $table->char('ccendis', 2); // Código Centro de Distribución
+            $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->char('clistpr', 3); // Código Lista de Precios
             $table->char('ccodart', 10); // Código de Artículo
             $table->double('qprecio', 9, 2); // Precio Artículo (incluye IGV)

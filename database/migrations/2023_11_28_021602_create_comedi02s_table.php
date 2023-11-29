@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('comedi02s', function (Blueprint $table) {
             // Stock Disponible por artículo
             $table->id();
-            $table->char('ccia', 2); // Código de Compañia
+            $table->char('ccia', 2)->default('11'); // Código de Compañia
             $table->char('cdivi', 2); // Código de División de Negocios
-            $table->char('ccendis', 2); // Código Centro de Distribución
+            $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->char('calm', 4); // Código de Almacén
             $table->char('ccodart', 10); // Código de Artículo
             $table->double('qsalfis', 9, 2); // Cantidad Saldo Físico

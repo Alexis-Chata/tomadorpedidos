@@ -17,16 +17,17 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         User::factory()->create([
+            'name' => 'Alexis Sistemas',
+            'email' => 'alexis.golomix@gmail.com',
+            'password' => bcrypt('12345678'),
+        ]);
+
+        User::factory()->create([
             'name' => 'Golomix Sistemas',
             'email' => 'sistemas.golomix@gmail.com',
             'password' => bcrypt('12345678'),
         ]);
 
-        User::factory()->create([
-            'name' => 'Alexis Sistemas',
-            'email' => 'alexis.golomix@gmail.com',
-            'password' => bcrypt('12345678'),
-        ]);
         $this->call([
             Comedi10Seeder::class,
             Comedi01Seeder::class,

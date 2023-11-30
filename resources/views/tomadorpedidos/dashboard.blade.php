@@ -8,17 +8,19 @@
 
 @section('content')
     <div class="card1">
-        <div class="align-items-center card-header1 d-flex flex-row justify-content-between">
-            <div>
-                <h4 class="">Clientes</h4>
-                <span>Cartera de Clientes a Visitar</span>
-            </div>
-            <div>
-                <div class="align-self-center">
-                    <span class="badge badge-primary"><i class="fas fa-angle-right"></i></span>
+        <a href="{{ route('tomadorpedidos.clientes') }}" class="no-underline text-body">
+            <div class="align-items-center card-header1 d-flex flex-row justify-content-between">
+                <div>
+                    <h4 class="">Clientes</h4>
+                    <span>Cartera de Clientes a Visitar</span>
+                </div>
+                <div>
+                    <div class="align-self-center">
+                        <span class="badge badge-primary"><i class="fas fa-angle-right"></i></span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
     <div class="card1">
         <div class="align-items-center card-header1 d-flex flex-row justify-content-between">

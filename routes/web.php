@@ -27,7 +27,7 @@ Route::middleware([
     Route::get('dashboard', function () {
         return view('tomadorpedidos.dashboard');
         //return view('dashboard');
-    })->name('tomadorpedidos.dashboard');
+    })->name('dashboard');
 
     Route::get('clientes', [Comedi31Controller::class, 'index'])->name('tomadorpedidos.clientes');
 });

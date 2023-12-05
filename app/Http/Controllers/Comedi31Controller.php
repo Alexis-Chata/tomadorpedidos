@@ -13,7 +13,7 @@ class Comedi31Controller extends Controller
      */
     public function index()
     {
-        $comedi31s = Comedi31::all();
+        $comedi31s = Comedi31::all()->take(4);
         return view('tomadorpedidos.clientes', compact('comedi31s'));
     }
 

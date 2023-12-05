@@ -18,6 +18,8 @@ return new class extends Migration
             $table->char('cdivi', 2); // Código de División de Negocios
             $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->char('ccli', 8); // Código de Cliente
+            $table->string('tnomrep', 50); // Nombre del Representante
+            $table->string('tdir', 50); // Dirección del Cliente
             $table->char('crut', 3); // Código de Ruta
             $table->char('nsecprev', 4); // Secuencia de visita en la ruta
             $table->char('clin', 2)->default('03'); // Código Línea Preventista

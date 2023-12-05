@@ -23,6 +23,8 @@ class Comedi31Factory extends Factory
             'cdivi' => '11',
             'ccendis' => '07',
             'ccli' => '070' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT),
+            'tnomrep' => Str::limit($this->faker->name(), 50, ''),
+            'tdir' => Str::limit($this->faker->address(), 50, ''),
             'crut' => str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT),
             'nsecprev' => str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT),
             'clin' => '03',

@@ -14,7 +14,7 @@
 
 <div class="card card-outline card-primary">
     <div class="card-header">
-        <h3 class="card-title"><i class="fas fa-reply pr-2" role="button" ></i>Clientes</h3>
+        <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2" role="button" ></i></a>Clientes</h3>
         <div class="card-tools d-flex" style="gap: 5px;">
             <!-- Buttons, labels, and many other things can be placed here! -->
             <!-- Here is a label for example -->

@@ -166,8 +166,6 @@
     document.addEventListener("keyup", e => {
             if (e.target.matches("#buscador")) {
                 document.querySelectorAll(".cliente").forEach(element => {
-                    console.log(e.target.value.toLowerCase());
-                    console.log(element);
                     element.textContent.toLowerCase().includes(e.target.value.toLowerCase()) ?
                         element.parentNode.classList.remove("d-none") :
                         element.parentNode.classList.add("d-none");

@@ -14,11 +14,12 @@
 
 <div class="card card-outline card-primary">
     <div class="card-header">
-        <h3 class="card-title">Clientes</h3>
-        <div class="card-tools">
+        <h3 class="card-title"><i class="fas fa-reply pr-2" role="button" ></i>Clientes</h3>
+        <div class="card-tools d-flex" style="gap: 5px;">
             <!-- Buttons, labels, and many other things can be placed here! -->
             <!-- Here is a label for example -->
-            <span class="badge badge-primary">Todos</span>
+            <span class="badge badge-primary">Fecha: {{ now()->format('d-m-y') }}</span>
+            <span class="badge badge-primary">{{ now()->translatedFormat('l') }}</span>
         </div>
         <!-- /.card-tools -->
     </div>
@@ -100,6 +101,11 @@
             <td>3350.00</td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="100%">Prevendedor: 001 Charlie Jara Huaringa</th>
+        </tr>
+    </tfoot>
 </table>
 @stop
 
@@ -113,7 +119,8 @@
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     }
 
-    .styled-table thead tr {
+    .styled-table thead tr,
+    .styled-table tfoot tr {
         background-color: #009879;
         color: #ffffff;
         text-align: left;

@@ -12,7 +12,7 @@
 
 @section('content')
 
-<div class="card card-outline card-primary">
+<div class="card card-outline card-primary mb-5">
     <div class="card-header">
         <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2" role="button" ></i></a>Clientes</h3>
         <div class="card-tools d-flex" style="gap: 5px;">
@@ -157,6 +157,9 @@
     #table-footer.styled-table th,
     #table-footer.styled-table td {
         padding: 8px 10px;
+    }
+    .main-footer{
+        padding: .75rem;
     }
 </style>
 @stop

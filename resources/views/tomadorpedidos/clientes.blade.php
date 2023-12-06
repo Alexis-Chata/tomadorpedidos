@@ -101,11 +101,11 @@
             <td>3350.00</td>
         </tr>
     </tbody>
-    <tfoot>
+    {{-- <tfoot>
         <tr>
             <th colspan="100%">Prevendedor: 001 Charlie Jara Huaringa</th>
         </tr>
-    </tfoot>
+    </tfoot> --}}
 </table>
 @stop
 

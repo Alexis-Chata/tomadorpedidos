@@ -46,7 +46,7 @@
                             <th scope="row">{{ $comedi01->cequiv }}</th>
                             <td class="cliente">{{ $comedi01->tcor }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio, 2) }}</td>
-                            <td class="cliente">{{ $comedi01->qfaccon }}</td>
+                            <td>{{ $comedi01->qfaccon }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio/$comedi01->qfaccon, 2) }}</td>
                         </tr>
                     @empty

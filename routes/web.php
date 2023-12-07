@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Comedi01Controller;
 use App\Http\Controllers\Comedi31Controller;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,5 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('clientes', [Comedi31Controller::class, 'index'])->name('tomadorpedidos.clientes');
+    Route::get('lista-precios/{clistpr?}', [Comedi01Controller::class, 'index'])->name('tomadorpedidos.lista.precios');
 });

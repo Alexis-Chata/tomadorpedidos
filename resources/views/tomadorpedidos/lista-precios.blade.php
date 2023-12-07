@@ -14,7 +14,7 @@
 
     <div class="card card-outline card-primary mb-5">
         <div class="card-header">
-            <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2" role="button"></i></a>Clientes</h3>
+            <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2" role="button"></i></a>Lista Precios</h3>
             <div class="card-tools d-flex" style="gap: 5px;">
                 <!-- Buttons, labels, and many other things can be placed here! -->
                 <!-- Here is a label for example -->
@@ -25,24 +25,29 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
+
             <div class="col-12 mb-3">
-                <input class="form-control" type="text" name="buscador" id="buscador" placeholder="Buscar Cliente..." autofocus>
+                <input class="form-control" type="text" name="buscador" id="buscador" placeholder="Buscar Producto..." autofocus>
             </div>
 
             <table class="styled-table">
                 <thead>
                     <tr>
-                        <th scope="col">ST</th>
-                        <th scope="col">Nombre y/o Apellidos</th>
-                        <th scope="col">Importe</th>
+                        <th scope="col">Cod.</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Precio Cj</th>
+                        <th scope="col">Cant/Cj</th>
+                        <th scope="col">Precio Unidad</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($comedi31s as $comedi31)
+                    @forelse ($comedi01s as $comedi01)
                         <tr>
-                            <th scope="row">PE</th>
-                            <td class="cliente">{{ $comedi31->ccli }} - {{ $comedi31->tnomrep }}<br> * {{ $comedi31->tdir }}</td>
-                            <td>800.00</td>
+                            <th scope="row">{{ $comedi01->cequiv }}</th>
+                            <td class="cliente">{{ $comedi01->tcor }}</td>
+                            <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio, 2) }}</td>
+                            <td class="cliente">{{ $comedi01->qfaccon }}</td>
+                            <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio/$comedi01->qfaccon, 2) }}</td>
                         </tr>
                     @empty
                     @endforelse
@@ -58,34 +63,6 @@
     </div>
     <!-- /.card -->
 
-@stop
-
-@section('footer')
-    <table class="styled-table" id="table-footer">
-        <thead>
-            <tr>
-                <th scope="col">PDV.Prog</th>
-                <th scope="col">PDV.Visit</th>
-                <th scope="col">PDV.Efect</th>
-                <th scope="col">%</th>
-                <th scope="col">Importe</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">40</th>
-                <td>7</td>
-                <td>5</td>
-                <td>12.50%</td>
-                <td>3350.00</td>
-            </tr>
-        </tbody>
-        {{-- <tfoot>
-        <tr>
-            <th colspan="100%">Prevendedor: 001 Charlie Jara Huaringa</th>
-        </tr>
-    </tfoot> --}}
-    </table>
 @stop
 
 @section('css')
@@ -108,7 +85,7 @@
 
         .styled-table th,
         .styled-table td {
-            padding: 12px 15px;
+            padding: 6px 7.5px;
         }
 
         .styled-table tbody tr {
@@ -162,7 +139,7 @@
         })
     </script>
     <script>
-        $('#comedi31').DataTable({
+        $('#comedi01').DataTable({
             "columnDefs": [{
                 "type": "num",
                 "targets": 0

@@ -18,12 +18,15 @@ return new class extends Migration
             $table->char('cdivi', 2); // Código de División de Negocios
             $table->char('ccendis', 2)->default('07'); // Código Centro de Distribución
             $table->char('clistpr', 3); // Código Lista de Precios
-            $table->char('ccodart', 10); // Código de Artículo
+            $table->string('tdeslpre', 40); // descripción de la lista de precios.
+            $table->string('ccodart', 10); // Código de Artículo
             $table->double('qprecio', 9, 2); // Precio Artículo (incluye IGV)
-            $table->char('cuser', 10); // Nombre de Usuario
-            $table->char('cidpr', 12); // Nombre del Programa
+            $table->date('finilp'); // Fecha inicio lista de precios.
+            $table->date('ffinlp'); // Fecha final lista de precios.
+            $table->string('cuser', 10); // Nombre de Usuario que Actualiza
+            $table->string('cidpr', 12); // Nombre del Programa
             $table->date('fupgr'); // Fecha de Actualización
-            $table->char('tupgr', 8); // Hora de Actualización
+            $table->time('tupgr', 8); // Hora de Actualización
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

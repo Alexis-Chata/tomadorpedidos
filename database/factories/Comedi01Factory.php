@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comedi01>
@@ -24,10 +25,9 @@ class Comedi01Factory extends Factory
             'ccendis' => '07',
             'cequiv' => $cequiv,
             'ccodart' => str_pad($cequiv, 10, '0', STR_PAD_LEFT),
-            'tcor' => $this->faker->sentence(4),
+            'tcor' => Str::limit($this->faker->sentence(4), 50, ''),
             'qfaccon' => rand(1, 30),
             'flagcre' => $this->faker->randomElement([' ', '1']),
-            'cprom' => '000',
             'cuni' => '09',
             'cpreuni' => '00',
             'qpisc' => '0.00',

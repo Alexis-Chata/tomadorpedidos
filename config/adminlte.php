@@ -315,8 +315,16 @@ return [
             'text'        => 'Dashboard',
             'url'         => 'dashboard',
             'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Clientes',
+            'url'         => 'clientes',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'Articulos',
+            'url'         => 'lista-precios',
+            'icon'        => 'far fa-fw fa-file',
         ],
         ['header' => 'account_settings'],
         [

@@ -13,6 +13,6 @@ class Comedi31Seeder extends Seeder
      */
     public function run(): void
     {
-        Comedi31::factory()->count(10)->create();
+        Comedi31::factory()->count(10)->hasComedi07()->create();
     }
 }

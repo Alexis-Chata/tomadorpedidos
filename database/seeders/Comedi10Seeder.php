@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Comedi10;
+use App\Models\Comedi31;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +14,8 @@ class Comedi10Seeder extends Seeder
      */
     public function run(): void
     {
-        Comedi10::factory()->hasComedi31s(10)->create();
+        Comedi10::factory()->has(
+            Comedi31::factory()->count(15)->hasComedi07()
+            )->create();
     }
 }

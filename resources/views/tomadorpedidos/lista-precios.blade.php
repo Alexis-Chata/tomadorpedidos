@@ -47,7 +47,7 @@
                             <td class="cliente">{{ $comedi01->tcor }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio, 2) }}</td>
                             <td>{{ $comedi01->qfaccon }}</td>
-                            <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio/$comedi01->qfaccon, 2) }}</td>
+                            <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio / $comedi01->qfaccon, 2) }}</td>
                         </tr>
                     @empty
                     @endforelse
@@ -130,7 +130,15 @@
         document.addEventListener("keyup", e => {
             if (e.target.matches("#buscador")) {
                 document.querySelectorAll(".cliente").forEach(element => {
-                    element.textContent.toLowerCase().includes(e.target.value.toLowerCase()) ?
+                    var texto = e.target.value.toLowerCase().trim().replace(/\s\s+/g, ' ');
+                    var arraytexto = texto.split(" ");
+
+                    var contiene = true;
+                    arraytexto.forEach(texto => {
+                        contiene = contiene && element.textContent.toLowerCase().includes(texto)
+                    });
+
+                    contiene ?
                         element.parentNode.classList.remove("d-none") :
                         element.parentNode.classList.add("d-none");
                     // (e.target.value.toLowerCase() == "") ? element.parentNode.classList.add("d-none"): "";

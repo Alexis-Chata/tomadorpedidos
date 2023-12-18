@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Comedi01;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,14 +19,18 @@ class Comedi01Factory extends Factory
     public function definition(): array
     {
         $date = now()->subDays(rand(1, 7));
-        $cequiv = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+        do {
+            $cequiv = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+            $ccodart = str_pad($cequiv, 10, '0', STR_PAD_LEFT);
+        } while (Comedi01::where('cequiv', $cequiv)->exists());
+
         return [
             'ccia' => '11',
             'cdivi' => '11',
             'ccendis' => '07',
             'cequiv' => $cequiv,
-            'ccodart' => str_pad($cequiv, 10, '0', STR_PAD_LEFT),
-            'tcor' => Str::limit($this->faker->sentence(4), 50, ''),
+            'ccodart' => $ccodart,
+            'tcor' => Str::limit($this->faker->sentence(4), 40, ''),
             'qfaccon' => rand(1, 30),
             'flagcre' => $this->faker->randomElement([' ', '1']),
             'cuni' => '09',

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Comedi10;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,17 +18,23 @@ class Comedi10Factory extends Factory
     public function definition(): array
     {
         $date = now()->subDays(rand(1, 7));
+        do {
+            $cven = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+        } while (Comedi10::where('cven', $cven)->exists());
+
         return [
             'ccia' => '11',
             'cdivi' => '11',
             'ccendis' => '07',
-            'cven' => str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT),
+            'cven' => $cven,
             'tven' => $this->faker->name(),
-            'password' => '123456',
-            'user' => 'SICSOFT',
+            'passven' => '123456',
+            'userrel' => 'SICSOFT',
             'nfon' => '999777999',
             'clin' => '03',
+            'tdesclin'=> 'descripción línea preventista',
             'ccargo' => '1',
+            'tdescarg' => 'Prevendedor',
             'csup' => '088',
             'csisven' => '100',
             'cind' => ' ',

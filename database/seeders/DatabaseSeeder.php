@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Comedi01;
+use App\Models\Comedi10;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -28,9 +30,16 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345678'),
         ]);
 
-        $this->call([
-            Comedi10Seeder::class,
-            Comedi01Seeder::class,
-        ]);
+        for ($i=0; $i < 10; $i++) {
+            $this->call([
+                Comedi10Seeder::class,
+            ]);
+        }
+
+        for ($i=0; $i < 70; $i++) {
+            $this->call([
+                Comedi01Seeder::class,
+            ]);
+        }
     }
 }

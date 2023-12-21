@@ -13,7 +13,8 @@ class Comedi36Controller extends Controller
      */
     public function index()
     {
-        //
+        //$comedi31s = Comedi31::with('comedi07')->get();
+        return view('tomadorpedidos.tomador');
     }
 
     /**

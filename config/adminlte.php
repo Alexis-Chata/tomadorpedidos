@@ -322,6 +322,11 @@ return [
             'icon'        => 'far fa-fw fa-file',
         ],
         [
+            'text'        => 'Tomador',
+            'url'         => 'tomador',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
             'text'        => 'Articulos',
             'url'         => 'articulos',
             'icon'        => 'far fa-fw fa-file',

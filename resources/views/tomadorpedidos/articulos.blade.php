@@ -44,10 +44,11 @@
                     @forelse ($comedi01s as $comedi01)
                         <tr>
                             <th scope="row">{{ $comedi01->cequiv }}</th>
-                            <td class="cliente">{{ $comedi01->tcor }}</td>
+                            <td>{{ $comedi01->tcor }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio, 2) }}</td>
                             <td>{{ $comedi01->qfaccon }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio / $comedi01->qfaccon, 2) }}</td>
+                            <input class="articulo" type="hidden" value="{{ $comedi01->cequiv.' '.$comedi01->tcor }}">
                         </tr>
                     @empty
                     @endforelse
@@ -129,13 +130,13 @@
     <script>
         document.addEventListener("keyup", e => {
             if (e.target.matches("#buscador")) {
-                document.querySelectorAll(".cliente").forEach(element => {
+                document.querySelectorAll(".articulo").forEach(element => {
                     var texto = e.target.value.toLowerCase().trim().replace(/\s\s+/g, ' ');
                     var arraytexto = texto.split(" ");
 
                     var contiene = true;
                     arraytexto.forEach(texto => {
-                        contiene = contiene && element.textContent.toLowerCase().includes(texto)
+                        contiene = contiene && element.value.toLowerCase().includes(texto)
                     });
 
                     contiene ?

@@ -34,20 +34,17 @@
                 <thead>
                     <tr>
                         <th scope="col">Cod.</th>
-                        <th scope="col">Producto</th>
-                        <th scope="col">Precio Cj</th>
-                        <th scope="col">Cant/Cj</th>
-                        <th scope="col">Precio Unidad</th>
+                        <th scope="col">Promocion</th>
+                        <th scope="col">Vigencia</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($comedi26s as $comedi26)
                         <tr>
-                            <th scope="row">{{ $comedi26->cequiv }}</th>
-                            <td class="cliente">{{ $comedi26->tcor }}</td>
-                            <td>{{ number_format($comedi26->comedilps->where('clistpr', '001')->first()->qprecio, 2) }}</td>
-                            <td>{{ $comedi26->qfaccon }}</td>
-                            <td>{{ number_format($comedi26->comedilps->where('clistpr', '001')->first()->qprecio / $comedi26->qfaccon, 2) }}</td>
+                            <th scope="row">{{ $comedi26->cprom }}</th>
+                            <td>{{ $comedi26->tprom }}</td>
+                            <td>{{ $comedi26->ffinpro }}</td>
+                            <input class="promocion" type="hidden" value="{{ $comedi26->cprom.' '.$comedi26->tprom }}">
                         </tr>
                     @empty
                     @endforelse
@@ -129,13 +126,13 @@
     <script>
         document.addEventListener("keyup", e => {
             if (e.target.matches("#buscador")) {
-                document.querySelectorAll(".cliente").forEach(element => {
+                document.querySelectorAll(".promocion").forEach(element => {
                     var texto = e.target.value.toLowerCase().trim().replace(/\s\s+/g, ' ');
                     var arraytexto = texto.split(" ");
 
                     var contiene = true;
                     arraytexto.forEach(texto => {
-                        contiene = contiene && element.textContent.toLowerCase().includes(texto)
+                        contiene = contiene && element.value.toLowerCase().includes(texto)
                     });
 
                     contiene ?

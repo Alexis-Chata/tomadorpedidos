@@ -326,6 +326,11 @@ return [
             'url'         => 'articulos',
             'icon'        => 'far fa-fw fa-file',
         ],
+        [
+            'text'        => 'Promociones',
+            'url'         => 'promociones',
+            'icon'        => 'far fa-fw fa-file',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

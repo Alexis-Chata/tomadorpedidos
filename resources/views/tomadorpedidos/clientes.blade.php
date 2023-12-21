@@ -41,7 +41,7 @@
                     @forelse ($comedi31s as $comedi31)
                         <tr>
                             <th scope="row">PE</th>
-                            <td class="cliente">{{ $comedi31->ccli }} - {{ $comedi31->tnomrep }}<br> * {{ $comedi31->tdir }}</td>
+                            <td class="cliente">{{ $comedi31->ccli }} - {{ $comedi31->comedi07->tnomrep }}<br> * {{ $comedi31->comedi07->tdir }}</td>
                             <td>800.00</td>
                         </tr>
                     @empty

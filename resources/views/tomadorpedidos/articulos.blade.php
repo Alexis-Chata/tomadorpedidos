@@ -24,7 +24,7 @@
             <!-- /.card-tools -->
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
+        <div class="card-body p-2 pt-3">
 
             <div class="col-12 mb-3">
                 <input class="form-control" type="text" name="buscador" id="buscador" placeholder="Buscar Producto..." autofocus>
@@ -44,7 +44,7 @@
                     @forelse ($comedi01s as $comedi01)
                         <tr>
                             <th scope="row">{{ $comedi01->cequiv }}</th>
-                            <td>{{ $comedi01->tcor }}</td>
+                            <td class="pr-2">{{ $comedi01->tcor }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio, 2) }}</td>
                             <td>{{ $comedi01->qfaccon }}</td>
                             <td>{{ number_format($comedi01->comedilps->where('clistpr', '001')->first()->qprecio / $comedi01->qfaccon, 2) }}</td>
@@ -70,7 +70,7 @@
     <style>
         .styled-table {
             width: 100%;
-            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            font-size: clamp(0.6rem, 1.5vw, 0.9rem);
             border-collapse: collapse;
             font-family: sans-serif;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -81,12 +81,12 @@
             background-color: #009879;
             color: #ffffff;
             text-align: left;
-            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            font-size: clamp(0.6rem, 1.5vw, 0.9rem);
         }
 
         .styled-table th,
         .styled-table td {
-            padding: 6px 7.5px;
+            padding: 5px 5px;
         }
 
         .styled-table tbody tr {

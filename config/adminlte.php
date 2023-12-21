@@ -323,7 +323,7 @@ return [
         ],
         [
             'text'        => 'Articulos',
-            'url'         => 'lista-precios',
+            'url'         => 'articulos',
             'icon'        => 'far fa-fw fa-file',
         ],
         ['header' => 'account_settings'],

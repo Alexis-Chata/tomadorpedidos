@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Comedi01;
+use App\Models\Comedi26;
 use App\Models\Comedilp;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -1009,13 +1010,23 @@ class Comedi01Seeder extends Seeder
      */
     public function run(): void
     {
-        Comedi01::factory()->sequence(
-            ['tcor' => $this->arcticulos[rand(1,900)]],
+        $comedi01 = Comedi01::factory()->sequence(
+            ['tcor' => $this->arcticulos[rand(1, 900)]],
         )->hasComedi02()->has(
             Comedilp::factory()->count(2)->sequence(
                 ['clistpr' => '001'],
                 ['clistpr' => '002'],
             )
         )->create();
+
+        if (substr($comedi01->tcor, 0, 5) == "BONI.") {
+            Comedi26::factory()->sequence(
+                [
+                    'tprom' => $comedi01->tcor,
+                    'ccodart1' => $comedi01->ccodart,
+                    'ccodart2' => $comedi01->ccodart,
+                ],
+            )->create();
+        }
     }
 }

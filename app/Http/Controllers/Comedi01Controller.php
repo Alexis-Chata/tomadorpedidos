@@ -15,7 +15,7 @@ class Comedi01Controller extends Controller
     {
         $comedi01s = Comedi01::all();
         //dd($comedi01s[0]);
-        return view('tomadorpedidos.lista-precios', compact('comedi01s'));
+        return view('tomadorpedidos.articulos', compact('comedi01s'));
     }
 
     /**

@@ -13,7 +13,9 @@ class Comedi26Controller extends Controller
      */
     public function index()
     {
-        //
+        $comedi26s = Comedi26::all();
+        //dd($comedi01s[0]);
+        return view('tomadorpedidos.promociones', compact('comedi26s'));
     }
 
     /**

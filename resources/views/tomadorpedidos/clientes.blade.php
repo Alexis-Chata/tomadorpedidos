@@ -7,9 +7,6 @@
     <span></span>
 @stop
 
-@section('plugins.Datatables', true)
-@section('plugins.Datatables-Plugins', true)
-
 @section('content')
 
     <div class="card card-outline card-primary mb-5">
@@ -24,7 +21,7 @@
             <!-- /.card-tools -->
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
+        <div class="card-body p-3">
             <div class="col-12 mb-3">
                 <input class="form-control" type="text" name="buscador" id="buscador" placeholder="Buscar Cliente..." autofocus>
             </div>
@@ -168,22 +165,5 @@
                 });
             }
         })
-    </script>
-    <script>
-        $('#comedi31').DataTable({
-            "columnDefs": [{
-                "type": "num",
-                "targets": 0
-            }],
-            order: [
-                [0, 'desc']
-            ],
-            responsive: true,
-            autoWidth: false,
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-            },
-            "pagingType": "numbers",
-        });
     </script>
 @stop

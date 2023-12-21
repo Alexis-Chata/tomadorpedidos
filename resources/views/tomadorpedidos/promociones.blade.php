@@ -7,9 +7,6 @@
     <span></span>
 @stop
 
-@section('plugins.Datatables', true)
-@section('plugins.Datatables-Plugins', true)
-
 @section('content')
 
     <div class="card card-outline card-primary mb-5">
@@ -142,22 +139,5 @@
                 });
             }
         })
-    </script>
-    <script>
-        $('#comedi26').DataTable({
-            "columnDefs": [{
-                "type": "num",
-                "targets": 0
-            }],
-            order: [
-                [0, 'desc']
-            ],
-            responsive: true,
-            autoWidth: false,
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-            },
-            "pagingType": "numbers",
-        });
     </script>
 @stop

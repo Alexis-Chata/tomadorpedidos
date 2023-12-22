@@ -105,7 +105,7 @@
 
         .styled-table th,
         .styled-table td {
-            padding: 12px 15px;
+            padding: 8px 10px;
         }
 
         .styled-table tbody tr {

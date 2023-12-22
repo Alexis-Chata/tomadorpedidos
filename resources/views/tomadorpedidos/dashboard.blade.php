@@ -23,6 +23,7 @@
     </a>
 </div>
 <div class="card1">
+    <a href="{{ route('tomadorpedidos.tomador') }}" class="no-underline text-body">
     <div class="align-items-center card-header1 d-flex flex-row justify-content-between">
         <div>
             <h4 class="">Ingreso de Pedidos</h4>
@@ -34,6 +35,7 @@
             </div>
         </div>
     </div>
+</a>
 </div>
 <div class="card1">
     <a href="{{ route('tomadorpedidos.lista.precios') }}" class="no-underline text-body">

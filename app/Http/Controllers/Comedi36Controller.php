@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comedi36;
 use App\Http\Requests\StoreComedi36Request;
 use App\Http\Requests\UpdateComedi36Request;
+use App\Models\Comedi01;
 
 class Comedi36Controller extends Controller
 {
@@ -13,8 +14,8 @@ class Comedi36Controller extends Controller
      */
     public function index()
     {
-        //$comedi31s = Comedi31::with('comedi07')->get();
-        return view('tomadorpedidos.tomador');
+        $comedi01s = Comedi01::with('comedi02', 'comedilps')->get();
+        return view('tomadorpedidos.tomador', compact('comedi01s'));
     }
 
     /**

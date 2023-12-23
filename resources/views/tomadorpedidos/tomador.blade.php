@@ -45,7 +45,7 @@
 
                 <datalist id="productos">
                     @forelse ($comedi01s as $comedi01)
-                    <option value="{{ $comedi01->cequiv }} {{ $comedi01->tcor }}"></option>
+                    <option value="{{ $comedi01->cequiv }} {{ $comedi01->tcor }}">{{ $comedi01->cequiv }} {{ $comedi01->tcor }}</option>
                     @empty
 
                     @endforelse

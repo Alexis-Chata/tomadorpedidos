@@ -14,8 +14,7 @@ class Comedi36Controller extends Controller
      */
     public function index()
     {
-        $comedi01s = Comedi01::with('comedi02', 'comedilps')->get();
-        return view('tomadorpedidos.tomador', compact('comedi01s'));
+        return view('tomadorpedidos.tomador');
     }
 
     /**

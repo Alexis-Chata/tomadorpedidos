@@ -16,18 +16,30 @@ class Tomador extends Component
     }
 
     public function agregar(){
-        $codProducto = substr(trim($this->producto), 0, 3);
+        $producto = $this->producto;
+        $cantidad = $this->cantidad;
+        $items = $this->items;
+
+        $codProducto = substr(trim($producto), 0, 3);
         $comedi01 = Comedi01::where('cequiv', $codProducto)->first();
+        $precio = $comedi01->comedilps->where('clistpr', '001')->first()->qprecio;
 
         $item = collect();
-        $item->producto = $this->producto;
-        $item->cantidad = $this->cantidad;
-        $item->importe = $comedi01->comedilps->where('clistpr', '001')->first()->qprecio  * $this->cantidad;
+        $item->put('codProducto', $codProducto);
+        $item->put('producto', $producto);
+        $item->put('cantidad', $cantidad);
+        $item->put('precio', $precio);
+        $item->put('importe', $precio * $cantidad);
 
-        //dd($item, $item->producto);
-        $this->items->add($item);
-        //dd($this->items, $this->items[0]);
-        //dd($this->items, $this->items[0], $this->items[0]->producto);
+        $items->push($item);
+        $items = $items->sortBy('codProducto');
+        // Agregar el número de orden a cada elemento
+        $items = $items->values()->map(function ($item, $index) {
+            $item['numero_orden'] = str_pad($index + 1, 3, '0', STR_PAD_LEFT);
+            return $item;
+        });
+
+        $this->items = $items->sortBy('codProducto');
         $this->reset(['producto', 'cantidad']);
     }
     public function render()

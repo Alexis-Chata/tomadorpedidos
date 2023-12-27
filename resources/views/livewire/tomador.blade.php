@@ -34,15 +34,34 @@
             <button class="btn btn-primary" wire:click='agregar'>Agregar</button>
             <br>
             <br>
+            @if ($items->count())
+            <span class="w-px-40 justify-content-center">#</span>
+            <span class="w-px-310">Producto</span>
+            <span class="w-px-55 justify-content-center">Cantidad</span>
+            <span class="w-px-65 justify-content-end">Precio</span>
+            <span class="w-px-70 justify-content-end">Importe</span>
+            <br/>
+            @endif
+
             @forelse ( $items as $item )
-                <span>{{ $item }}</span>
-                <span>{{ $item->producto }}</span>
-                <br>
-                <br>
-                <br>
+                <span class="w-px-40 justify-content-end">{{ $item->get('numero_orden') }} |</span>
+                <span class="w-px-310">{{ $item->get('producto') }}</span><span>|</span>
+                <span class="w-px-55 justify-content-end">{{ number_format($item->get('cantidad'), 2, '.', ' ') }} |</span>
+                <span class="w-px-65 justify-content-end">{{ number_format($item->get('precio'), 2, '.', ' ') }} |</span>
+                <span class="w-px-70 justify-content-end">{{ number_format($item->get('importe'), 2, '.', ' ') }}</span>
+            <br>
             @empty
 
             @endforelse
+
+            @if ($items->count())
+            <span class="w-px-40 justify-content-center"></span>
+            <span class="w-px-310"></span>
+            <span class="w-px-55 justify-content-center"></span>
+            <span class="w-px-65 justify-content-end"></span>
+            <span class="w-px-70 justify-content-end">Importe</span>
+            <br/>
+            @endif
 
         </div>
 

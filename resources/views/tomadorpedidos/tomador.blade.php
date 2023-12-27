@@ -24,7 +24,7 @@
     <!-- /.card-header -->
     <div class="card-body p-3">
 
-        <livewire:tomador>
+        <livewire:tomador />
 
     </div>
     <!-- /.card-body -->
@@ -39,6 +39,26 @@
 
 @section('css')
 <style>
+    .w-px-40{
+        width: 40px;
+        display: inline-grid;
+    }
+    .w-px-55{
+        width: 55px;
+        display: inline-grid;
+    }
+    .w-px-65{
+        width: 65px;
+        display: inline-grid;
+    }
+    .w-px-70{
+        width: 70px;
+        display: inline-grid;
+    }
+    .w-px-310{
+        width: 310px;
+        display: inline-grid;
+    }
     .styled-table {
         width: 100%;
         font-size: clamp(0.6rem, 1.5vw, 0.9rem);

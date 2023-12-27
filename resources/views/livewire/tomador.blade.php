@@ -12,7 +12,7 @@
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade" id="nav-cliente" role="tabpanel" aria-labelledby="nav-cliente-tab">...</div>
 
-        <div class="tab-pane fade show active pt-3" id="nav-articulo" role="tabpanel"
+        <div class="tab-pane fade show active pt-3 source-sans-pro" id="nav-articulo" role="tabpanel"
             aria-labelledby="nav-articulo-tab">
 
             <br />

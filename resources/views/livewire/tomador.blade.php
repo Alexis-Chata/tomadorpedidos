@@ -37,18 +37,18 @@
             @if ($items->count())
             <span class="w-px-40 justify-content-center">#</span>
             <span class="w-px-253">Producto</span>
-            <span class="w-px-55 justify-content-center">Cantidad</span>
+            <span class="w-px-55 justify-content-center font-weight-bold">Cantidad</span>
             <span class="w-px-65 justify-content-end">Precio</span>
-            <span class="w-px-70 justify-content-end">Importe</span>
+            <span class="w-px-70 justify-content-end font-weight-bold">Importe</span>
             <br/>
             @endif
 
             @forelse ( $items as $item )
-                <span class="w-px-40 justify-content-end">{{ $item->get('numero_orden') }} |</span>
-                <span class="w-px-250">{{ $item->get('producto') }}</span><span>|</span>
-                <span class="w-px-55 justify-content-end">{{ number_format($item->get('cantidad'), 2, '.', ' ') }} |</span>
+                <span class="w-px-40 justify-content-end">{{ $item->get('numero_orden') }} | </span>
+                <span class="w-px-250"> {{ $item->get('producto') }}</span><span>|</span>
+                <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('cantidad'), 2, '.', ' ') }} |</span>
                 <span class="w-px-65 justify-content-end">{{ number_format($item->get('precio'), 2, '.', ' ') }} |</span>
-                <span class="w-px-70 justify-content-end">{{ number_format($item->get('importe'), 2, '.', ' ') }}</span>
+                <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('importe'), 2, '.', ' ') }}</span>
             <br>
             @empty
 
@@ -58,8 +58,8 @@
             <span class="w-px-40 justify-content-center"></span>
             <span class="w-px-253"></span>
             <span class="w-px-55 justify-content-center"></span>
-            <span class="w-px-65 justify-content-end"></span>
-            <span class="w-px-70 justify-content-end">Importe</span>
+            <span class="w-px-65 justify-content-end font-weight-bold">Total:</span>
+            <span class="w-px-70 justify-content-end">S/. {{ number_format($items->sum('importe'), 2, '.', ' ') }}</span>
             <br/>
             @endif
 

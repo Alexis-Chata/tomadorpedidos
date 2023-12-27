@@ -55,8 +55,12 @@
         width: 70px;
         display: inline-grid;
     }
-    .w-px-310{
-        width: 310px;
+    .w-px-250{
+        width: 250px;
+        display: inline-grid;
+    }
+    .w-px-253{
+        width: 253.22px;
         display: inline-grid;
     }
     .styled-table {

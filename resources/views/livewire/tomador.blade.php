@@ -17,7 +17,7 @@
 
             <br />
             <label>Articulo</label>
-            <input type="text" list="productos" autofocus class="col" wire:model="producto">
+            <input type="text" list="productos" autofocus class="form-control col" wire:model="producto">
 
             <datalist id="productos">
                 @forelse ($comedi01s as $comedi01)
@@ -28,7 +28,7 @@
             </datalist>
             <br>
             <label>Cantidad</label>
-            <input type="number" class="col" wire:model="cantidad">
+            <input type="number" class="form-control col" wire:model="cantidad">
             <br>
             <br>
             <button class="btn btn-primary" wire:click='agregar'>Agregar</button>

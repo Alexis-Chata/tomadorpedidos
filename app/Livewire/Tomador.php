@@ -73,6 +73,7 @@ class Tomador extends Component
         $items = $items->reject(function ($item) use ($cequiv) {
             return $item['codProducto'] === $cequiv;
         });
+        $items = $this->numeroOrdenItem($items);
         $this->items = $items;
     }
 

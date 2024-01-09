@@ -16,7 +16,7 @@
             <form wire:submit.prevent="agregar">
                 <div class="form-group m-0">
                     <label>Articulo</label>
-                    <div>
+                    <div class="text-danger">
                         @error('producto')
                             {{ $message }}
                         @enderror
@@ -35,13 +35,15 @@
                 <br>
                 <label>Cantidad</label>
                 <input type="number" class="form-control col" wire:model="cantidad" required step=0.01 min="0.01">
-                <div>
+                <div class="text-danger">
                     @error('cantidad')
                         {{ $message }}
                     @enderror
                 </div>
                 <br>
-                <button class="btn btn-primary">Agregar</button>
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-primary">Agregar</button>
+                </div>
             </form>
             <br>
             <br>
@@ -60,6 +62,7 @@
                 <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('cantidad'), 2, '.', ' ') }} |</span>
                 <span class="w-px-65 justify-content-end">{{ number_format($item->get('precio'), 2, '.', ' ') }} |</span>
                 <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('importe'), 2, '.', ' ') }}</span>
+                <i role="button" class="fas fa-times text-danger ml-3 p-1" wire:click="eliminarItem('{{ $item->get('codProducto') }}')"></i>
                 <br>
             @empty
             @endforelse
@@ -71,7 +74,12 @@
                 <span class="w-px-65 justify-content-end font-weight-bold">Total:</span>
                 <span class="w-px-70 justify-content-end">S/. {{ number_format($items->sum('importe'), 2, '.', ' ') }}</span>
                 <br />
+                <br />
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-info">Guardar</button>
+                </div>
             @endif
+
 
         </div>
 

@@ -135,25 +135,33 @@
     </style>
 @stop
 
+@section('plugins.Sweetalert2', true)
+
 @section('js')
     <script>
-        document.addEventListener("keyup", e => {
-            if (e.target.matches("#buscador")) {
-                document.querySelectorAll(".articulo").forEach(element => {
-                    var texto = e.target.value.toLowerCase().trim().replace(/\s\s+/g, ' ');
-                    var arraytexto = texto.split(" ");
+        window.Livewire.on('mostrar_ventana_reinicio', () => {
 
-                    var contiene = true;
-                    arraytexto.forEach(texto => {
-                        contiene = contiene && element.value.toLowerCase().includes(texto)
+            setTimeout(() => {
+                btnguardar = document.getElementById('btnGuardar');
+                btnguardar.addEventListener('click', () => {
+                    Swal.fire({
+                        title: "¿Está seguro?",
+                        text: "¡No podrás revertir esto!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        cancelButtonText: "Cancelar",
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Confirmar, Guardar Pedido"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            {{-- @this.dispatch('registrar-pedido'); --}}
+                            Livewire.dispatch('registrar-pedido');
+                        }
                     });
-
-                    contiene ?
-                        element.parentNode.classList.remove("d-none") :
-                        element.parentNode.classList.add("d-none");
-                    // (e.target.value.toLowerCase() == "") ? element.parentNode.classList.add("d-none"): "";
                 });
-            }
-        })
+            }, 500);
+
+        });
     </script>
 @stop

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Comedi01;
 use App\Models\Comedi37;
 use Illuminate\Support\Facades\Validator;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Tomador extends Component
@@ -18,6 +19,7 @@ class Tomador extends Component
         $this->items = collect();
     }
 
+    #[On('registrar-pedido')]
     public function guardarPedido()
     {
         $ccia = '11';
@@ -25,7 +27,7 @@ class Tomador extends Component
         $ccendis = '07';
         $cidpr = 'cidpr';
         $fupgr = now()->format('Y-m-d');
-        $tupgr = now()->format('h:i:s');
+        $tupgr = now()->format('H:i:s');
         $username = substr(auth()->user()->name, 0, 10);
 
         $items = $this->items;
@@ -77,6 +79,7 @@ class Tomador extends Component
         }
 
         $this->reset();
+        $this->items = collect();
     }
 
     public function comedi36()
@@ -149,7 +152,8 @@ class Tomador extends Component
 
         $this->items = $items;
         $this->reset(['producto', 'cantidad']);
-        //dd($items);
+
+        $this->dispatch('mostrar_ventana_reinicio');
     }
 
     public function eliminarItem($cequiv)

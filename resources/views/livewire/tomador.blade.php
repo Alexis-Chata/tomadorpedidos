@@ -76,7 +76,7 @@
                 <br />
                 <br />
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-info" wire:click='guardarPedido'>Guardar</button>
+                    <button type="button" class="btn btn-info" id="btnGuardar">Guardar</button>
                 </div>
             @endif
 

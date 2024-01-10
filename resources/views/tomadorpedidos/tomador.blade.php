@@ -59,7 +59,7 @@
         }
 
         .w-px-70 {
-            width: 70px;
+            width: 76px;
             display: inline-grid;
         }
 

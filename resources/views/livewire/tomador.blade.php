@@ -57,12 +57,12 @@
             @endif
 
             @forelse ($items as $item)
-                <span class="w-px-40 justify-content-end">{{ $item->get('numero_orden') }} | </span>
-                <span class="w-px-250"> {{ $item->get('codProducto').' '.$item->get('producto').' - '.$item->get('qfaccon') }}</span><span>|</span>
-                <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('cantidad'), 2, '.', ' ') }} |</span>
-                <span class="w-px-65 justify-content-end">{{ number_format($item->get('precio'), 2, '.', ' ') }} |</span>
-                <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('importe'), 2, '.', ' ') }}</span>
-                <i role="button" class="fas fa-times text-danger ml-3 p-1" wire:click="eliminarItem('{{ $item->get('codProducto') }}')"></i>
+                <span class="w-px-40 justify-content-end">{{ $item->get('citem') }} | </span>
+                <span class="w-px-250"> {{ $item->get('cequiv').' '.$item->get('producto').' - '.$item->get('qfaccon') }}</span><span>|</span>
+                <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('qcanped'), 2, '.', ' ') }} |</span>
+                <span class="w-px-65 justify-content-end">{{ number_format($item->get('qpreuni'), 2, '.', ' ') }} |</span>
+                <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('qimp'), 2, '.', ' ') }}</span>
+                <i role="button" class="fas fa-times text-danger ml-3 p-1" wire:click="eliminarItem('{{ $item->get('cequiv') }}')"></i>
                 <br>
             @empty
             @endforelse
@@ -72,11 +72,11 @@
                 <span class="w-px-253"></span>
                 <span class="w-px-55 justify-content-center"></span>
                 <span class="w-px-65 justify-content-end font-weight-bold">Total:</span>
-                <span class="w-px-70 justify-content-end">S/. {{ number_format($items->sum('importe'), 2, '.', ' ') }}</span>
+                <span class="w-px-70 justify-content-end">S/. {{ number_format($items->sum('qimp'), 2, '.', ',') }}</span>
                 <br />
                 <br />
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-info">Guardar</button>
+                    <button type="button" class="btn btn-info" wire:click='guardarPedido'>Guardar</button>
                 </div>
             @endif
 

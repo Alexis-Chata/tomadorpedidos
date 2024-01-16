@@ -58,7 +58,7 @@
 
             @forelse ($items as $item)
                 <span class="w-px-40 justify-content-end">{{ $item->get('citem') }} | </span>
-                <span class="w-px-250"> {{ $item->get('cequiv').' '.$item->get('producto').' - '.$item->get('qfaccon') }}</span><span>|</span>
+                <span class="w-px-250"> {{ $item->get('cequiv') . ' ' . $item->get('producto') . ' - ' . $item->get('qfaccon') }}</span><span>|</span>
                 <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('qcanped'), 2, '.', ' ') }} |</span>
                 <span class="w-px-65 justify-content-end">{{ number_format($item->get('qpreuni'), 2, '.', ' ') }} |</span>
                 <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('qimp'), 2, '.', ' ') }}</span>
@@ -86,3 +86,15 @@
         <div class="tab-pane fade" id="nav-resumen" role="tabpanel" aria-labelledby="nav-resumen-tab">...</div>
     </div>
 </div>
+
+@script
+    <script>
+        $wire.on('pedido-created', () => {
+            Swal.fire({
+                title: "¡Buen trabajo!",
+                text: "Pedido Guardado exitosamente.",
+                icon: "success"
+            });
+        });
+    </script>
+@endscript

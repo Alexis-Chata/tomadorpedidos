@@ -37,6 +37,7 @@ class Tomador extends Component
         $qimptot = number_format($qimpvta - $qdesigv, 2, '.', '');
 
         $nped = '1234567890';
+        $nped = '1234567890';
 
         $comedi36y37dataExtra = [
             'ccia' => $ccia,
@@ -80,10 +81,12 @@ class Tomador extends Component
 
         $this->reset();
         $this->items = collect();
+        $this->dispatch('pedido-created');
     }
 
-    public function comedi36()
+    public function generarNped()
     {
+        Comedi01::all();
     }
 
     public function agregar()
@@ -233,6 +236,7 @@ class Tomador extends Component
 
     public function render()
     {
+        $this->dispatch('pedido-created');
         $comedi01s = Comedi01::all();
         return view('livewire.tomador', compact('comedi01s'));
     }

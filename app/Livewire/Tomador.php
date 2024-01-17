@@ -3,7 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Comedi01;
+use App\Models\Comedi22;
 use App\Models\Comedi37;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -22,71 +25,85 @@ class Tomador extends Component
     #[On('registrar-pedido')]
     public function guardarPedido()
     {
-        $ccia = '11';
-        $cdivi = '00';
-        $ccendis = '07';
-        $cidpr = 'cidpr';
-        $fupgr = now()->format('Y-m-d');
-        $tupgr = now()->format('H:i:s');
-        $username = substr(auth()->user()->name, 0, 10);
+        try {
 
-        $items = $this->items;
-        $qdesipm = '18.00';
-        $qimpvta = number_format($items->sum('qimp'), 2, '.', '');
-        $qdesigv = number_format(($qimpvta * $qdesipm) / 100, 2, '.', '');
-        $qimptot = number_format($qimpvta - $qdesigv, 2, '.', '');
+            $ccia = '11';
+            $cdivi = '00';
+            $ccendis = '07';
+            $cidpr = 'cidpr';
+            $fupgr = now()->format('Y-m-d');
+            $tupgr = now()->format('H:i:s');
+            $username = substr(auth()->user()->name, 0, 10);
 
-        $nped = '1234567890';
-        $nped = '1234567890';
+            $items = $this->items;
+            $qdesipm = '18.00';
+            $qimpvta = number_format($items->sum('qimp'), 2, '.', '');
+            $qdesigv = number_format(($qimpvta * $qdesipm) / 100, 2, '.', '');
+            $qimptot = number_format($qimpvta - $qdesigv, 2, '.', '');
 
-        $comedi36y37dataExtra = [
-            'ccia' => $ccia,
-            'cdivi' => $cdivi,
-            'ccendis' => $ccendis,
-            'cidpr' => $cidpr,
-            'fupgr' => $fupgr,      // 10/02/2023
-            'tupgr' => $tupgr,      // 15:05:49
-            'cuser' => $username,
-            'fmov' => $fupgr,       // 10/02/2023
-            'nped' => $nped,        // Generar nped (10)
-        ];
+            $cven = auth()->user()->codVendedorAsignadosMain()->cven;
+            $nped = $this->generarNped();
 
-        $comedi36 = [
-            'cven' => 'cven', // Código Prevendedor
-            'ccli' => 'ccli', // Código de Cliente
-            'crut' => 'crut', // Código de Ruta
-            'clin' => '00', // Código Línea Preventista
-            'cletd' => 'cletd', // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
-            'ctip' => 'ctip', // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-            'condpag' => ' ', // | ‘ ’: Contado | ‘C’: Crédito |
-            'cconpag' => ' ', // Código Política Crédito
-            'plazo' => '0', // Plazo de pago
-            'cflagst' => ' ', // Estatus Pedido: | ’ ’:Pendiente | ‘R’:Recibido |
-            'csup' => '000', // Código Supervisor
-            'clistpr' => 'clistpr', // Código Lista de Precios
-            'noped' => ' ', // | ‘ ‘: Pedido | ‘N’: No Pedido |
-            'cmnp' => '00', // Código Motivo No Pedido
-            'qdescom' => '0.00', // importe descuento comercial.
-            'qdesigv' => $qdesigv, // importe descuento IGV.
-            'qdesipm' => $qdesipm, // porcentaje IGV.
-            'qdesisc' => '0.00', // importe descuento ISC.
-            'qimptot' => $qimptot, // importe total sin impuestos.
-            'qimpvta' => $qimpvta, // importe total venta incluye impuestos.
-        ];
+            $comedi36y37dataExtra = [
+                'ccia' => $ccia,
+                'cdivi' => $cdivi,
+                'ccendis' => $ccendis,
+                'cidpr' => $cidpr,
+                'fupgr' => $fupgr,      // 10/02/2023
+                'tupgr' => $tupgr,      // 15:05:49
+                'cuser' => $username,
+                'fmov' => $fupgr,       // 10/02/2023
+                'nped' => $nped,        // Generar nped (10)
+            ];
 
-        foreach ($items as $item) {
-            $comedi37 = new Comedi37(array_merge($item->except(['producto', 'qfaccon'])->all(), $comedi36y37dataExtra));
-            $comedi37->save();
+            $comedi36 = [
+                'cven' => $cven, // Código Prevendedor
+                'ccli' => 'ccli', // Código de Cliente
+                'crut' => 'crut', // Código de Ruta
+                'clin' => '00', // Código Línea Preventista
+                'cletd' => 'cletd', // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
+                'ctip' => 'ctip', // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                'condpag' => ' ', // | ‘ ’: Contado | ‘C’: Crédito |
+                'cconpag' => ' ', // Código Política Crédito
+                'plazo' => '0', // Plazo de pago
+                'cflagst' => ' ', // Estatus Pedido: | ’ ’:Pendiente | ‘R’:Recibido |
+                'csup' => '000', // Código Supervisor
+                'clistpr' => 'clistpr', // Código Lista de Precios
+                'noped' => ' ', // | ‘ ‘: Pedido | ‘N’: No Pedido |
+                'cmnp' => '00', // Código Motivo No Pedido
+                'qdescom' => '0.00', // importe descuento comercial.
+                'qdesigv' => $qdesigv, // importe descuento IGV.
+                'qdesipm' => $qdesipm, // porcentaje IGV.
+                'qdesisc' => '0.00', // importe descuento ISC.
+                'qimptot' => $qimptot, // importe total sin impuestos.
+                'qimpvta' => $qimpvta, // importe total venta incluye impuestos.
+            ];
+
+            foreach ($items as $item) {
+                $comedi37 = new Comedi37(array_merge($item->except(['producto', 'qfaccon'])->all(), $comedi36y37dataExtra));
+                $comedi37->save();
+            }
+
+            $this->reset();
+            $this->items = collect();
+            $this->dispatch('pedido-created');
+
+        } catch (Exception $e) {
+            // Manejar la excepción
+            Log::error($e->getMessage());
+
+            $this->dispatch('pedido-error');
         }
-
-        $this->reset();
-        $this->items = collect();
-        $this->dispatch('pedido-created');
     }
 
     public function generarNped()
     {
-        Comedi01::all();
+        $ultimoregistro = Comedi22::latest()->first(); //ultimo registro ordenado segun created_at
+        $ndoc = $ultimoregistro->ndoc;
+        $nped = str_pad($ndoc + 1, 10, '0', STR_PAD_LEFT);
+        $ultimoregistro->ndoc = $nped;
+        $ultimoregistro->save();
+        return $nped;
     }
 
     public function agregar()
@@ -236,7 +253,6 @@ class Tomador extends Component
 
     public function render()
     {
-        $this->dispatch('pedido-created');
         $comedi01s = Comedi01::all();
         return view('livewire.tomador', compact('comedi01s'));
     }

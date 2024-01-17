@@ -47,39 +47,37 @@
             </form>
             <br>
             <br>
-            @if ($items->count())
-                <span class="w-px-40 justify-content-center">#</span>
-                <span class="w-px-253">Producto</span>
-                <span class="w-px-55 justify-content-center font-weight-bold">Cantidad</span>
-                <span class="w-px-65 justify-content-end">Precio</span>
-                <span class="w-px-70 justify-content-end font-weight-bold">Importe</span>
-                <br />
-            @endif
 
-            @forelse ($items as $item)
-                <span class="w-px-40 justify-content-end">{{ $item->get('citem') }} | </span>
-                <span class="w-px-250"> {{ $item->get('cequiv') . ' ' . $item->get('producto') . ' - ' . $item->get('qfaccon') }}</span><span>|</span>
-                <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('qcanped'), 2, '.', ' ') }} |</span>
-                <span class="w-px-65 justify-content-end">{{ number_format($item->get('qpreuni'), 2, '.', ' ') }} |</span>
-                <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('qimp'), 2, '.', ' ') }}</span>
-                <i role="button" class="fas fa-times text-danger ml-3 p-1" wire:click="eliminarItem('{{ $item->get('cequiv') }}')"></i>
-                <br>
-            @empty
-            @endforelse
+                @if ($items->count())
+                    <span class="w-px-40 justify-content-center">#</span>
+                    <span class="w-px-253">Producto</span>
+                    <span class="w-px-55 justify-content-center font-weight-bold">Cantidad</span>
+                    <span class="w-px-65 justify-content-end">Precio</span>
+                    <span class="w-px-70 justify-content-end font-weight-bold">Importe</span>
+                    <br />
 
-            @if ($items->count())
-                <span class="w-px-40 justify-content-center"></span>
-                <span class="w-px-253"></span>
-                <span class="w-px-55 justify-content-center"></span>
-                <span class="w-px-65 justify-content-end font-weight-bold">Total:</span>
-                <span class="w-px-70 justify-content-end">S/. {{ number_format($items->sum('qimp'), 2, '.', ',') }}</span>
-                <br />
-                <br />
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-info" id="btnGuardar">Guardar</button>
-                </div>
-            @endif
+                    @forelse ($items as $item)
+                        <span class="w-px-40 justify-content-end">{{ $item->get('citem') }} | </span>
+                        <span class="w-px-250"> {{ $item->get('cequiv') . ' ' . $item->get('producto') . ' - ' . $item->get('qfaccon') }}</span><span>|</span>
+                        <span class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('qcanped'), 2, '.', ' ') }} |</span>
+                        <span class="w-px-65 justify-content-end">{{ number_format($item->get('qpreuni'), 2, '.', ' ') }} |</span>
+                        <span class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('qimp'), 2, '.', ' ') }}</span>
+                        <i role="button" class="fas fa-times text-danger ml-3 p-1" wire:click="eliminarItem('{{ $item->get('cequiv') }}')"></i>
+                        <br>
+                    @empty
+                    @endforelse
 
+                    <span class="w-px-40 justify-content-center"></span>
+                    <span class="w-px-253"></span>
+                    <span class="w-px-55 justify-content-center"></span>
+                    <span class="w-px-65 justify-content-end font-weight-bold">Total:</span>
+                    <span class="w-px-70 justify-content-end">S/. {{ number_format($items->sum('qimp'), 2, '.', ',') }}</span>
+                    <br />
+                    <br />
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-info" id="btnGuardar">Guardar</button>
+                    </div>
+                @endif
 
         </div>
 
@@ -94,6 +92,14 @@
                 title: "¡Buen trabajo!",
                 text: "Pedido Guardado exitosamente.",
                 icon: "success"
+            });
+        });
+
+        $wire.on('pedido-error', () => {
+            Swal.fire({
+                title: "¡Oops... Algo paso!",
+                text: "No se pudo grabar el pedido intente nuevamente.",
+                icon: "error"
             });
         });
     </script>

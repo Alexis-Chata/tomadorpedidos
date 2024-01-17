@@ -58,4 +58,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function codVendedorAsignados()
+    {
+        return $this->hasMany(CodVendedorAsignado::class);
+    }
+
+    public function codVendedorAsignadosMain()
+    {
+        return $this->hasMany(CodVendedorAsignado::class)->firstWhere('tipo', 'main');
+    }
 }

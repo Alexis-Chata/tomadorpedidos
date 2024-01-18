@@ -4,8 +4,11 @@ namespace App\Livewire;
 
 use App\Models\Comedi01;
 use App\Models\Comedi22;
+use App\Models\Comedi26;
 use App\Models\Comedi37;
 use Exception;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\On;
@@ -14,8 +17,8 @@ use Livewire\Component;
 class Tomador extends Component
 {
     public $items;
-    public $producto;
-    public $cantidad;
+    public $producto, $cantidad;
+    public $bonificacion, $cantidadboni;
 
     public function mount()
     {
@@ -27,62 +30,66 @@ class Tomador extends Component
     {
         try {
 
-            $ccia = '11';
-            $cdivi = '00';
-            $ccendis = '07';
-            $cidpr = 'cidpr';
-            $fupgr = now()->format('Y-m-d');
-            $tupgr = now()->format('H:i:s');
-            $username = substr(auth()->user()->name, 0, 10);
+            DB::transaction(function () {
+                $ccia = '11';
+                $cdivi = '00';
+                $ccendis = '07';
+                $cidpr = 'cidpr';
+                $fupgr = now()->format('Y-m-d');
+                $tupgr = now()->format('H:i:s');
+                $username = substr(auth()->user()->name, 0, 10);
 
-            $items = $this->items;
-            $qdesipm = '18.00';
-            $qimpvta = number_format($items->sum('qimp'), 2, '.', '');
-            $qdesigv = number_format(($qimpvta * $qdesipm) / 100, 2, '.', '');
-            $qimptot = number_format($qimpvta - $qdesigv, 2, '.', '');
+                $items = $this->items;
+                $this->validandoImporteTotal($items);
+                $qdesipm = '18.00';
+                $qimpvta = number_format($items->sum('qimp'), 2, '.', '');
+                $qdesigv = number_format(($qimpvta * $qdesipm) / 100, 2, '.', '');
+                $qimptot = number_format($qimpvta - $qdesigv, 2, '.', '');
 
-            $cven = auth()->user()->codVendedorAsignadosMain()->cven;
-            $nped = $this->generarNped();
+                $cven = auth()->user()->codVendedorAsignadosMain()->cven;
 
-            $comedi36y37dataExtra = [
-                'ccia' => $ccia,
-                'cdivi' => $cdivi,
-                'ccendis' => $ccendis,
-                'cidpr' => $cidpr,
-                'fupgr' => $fupgr,      // 10/02/2023
-                'tupgr' => $tupgr,      // 15:05:49
-                'cuser' => $username,
-                'fmov' => $fupgr,       // 10/02/2023
-                'nped' => $nped,        // Generar nped (10)
-            ];
+                $nped = $this->generarNped();
 
-            $comedi36 = [
-                'cven' => $cven, // Código Prevendedor
-                'ccli' => 'ccli', // Código de Cliente
-                'crut' => 'crut', // Código de Ruta
-                'clin' => '00', // Código Línea Preventista
-                'cletd' => 'cletd', // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
-                'ctip' => 'ctip', // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-                'condpag' => ' ', // | ‘ ’: Contado | ‘C’: Crédito |
-                'cconpag' => ' ', // Código Política Crédito
-                'plazo' => '0', // Plazo de pago
-                'cflagst' => ' ', // Estatus Pedido: | ’ ’:Pendiente | ‘R’:Recibido |
-                'csup' => '000', // Código Supervisor
-                'clistpr' => 'clistpr', // Código Lista de Precios
-                'noped' => ' ', // | ‘ ‘: Pedido | ‘N’: No Pedido |
-                'cmnp' => '00', // Código Motivo No Pedido
-                'qdescom' => '0.00', // importe descuento comercial.
-                'qdesigv' => $qdesigv, // importe descuento IGV.
-                'qdesipm' => $qdesipm, // porcentaje IGV.
-                'qdesisc' => '0.00', // importe descuento ISC.
-                'qimptot' => $qimptot, // importe total sin impuestos.
-                'qimpvta' => $qimpvta, // importe total venta incluye impuestos.
-            ];
+                $comedi36y37dataExtra = [
+                    'ccia' => $ccia,
+                    'cdivi' => $cdivi,
+                    'ccendis' => $ccendis,
+                    'cidpr' => $cidpr,
+                    'fupgr' => $fupgr,      // 10/02/2023
+                    'tupgr' => $tupgr,      // 15:05:49
+                    'cuser' => $username,
+                    'fmov' => $fupgr,       // 10/02/2023
+                    'nped' => $nped,        // Generar nped (10)
+                ];
 
-            foreach ($items as $item) {
-                $comedi37 = new Comedi37(array_merge($item->except(['producto', 'qfaccon'])->all(), $comedi36y37dataExtra));
-                $comedi37->save();
-            }
+                $comedi36 = [
+                    'cven' => $cven, // Código Prevendedor
+                    'ccli' => 'ccli', // Código de Cliente
+                    'crut' => 'crut', // Código de Ruta
+                    'clin' => '00', // Código Línea Preventista
+                    'cletd' => 'cletd', // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
+                    'ctip' => 'ctip', // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                    'condpag' => ' ', // | ‘ ’: Contado | ‘C’: Crédito |
+                    'cconpag' => ' ', // Código Política Crédito
+                    'plazo' => '0', // Plazo de pago
+                    'cflagst' => ' ', // Estatus Pedido: | ’ ’:Pendiente | ‘R’:Recibido |
+                    'csup' => '000', // Código Supervisor
+                    'clistpr' => 'clistpr', // Código Lista de Precios
+                    'noped' => ' ', // | ‘ ‘: Pedido | ‘N’: No Pedido |
+                    'cmnp' => '00', // Código Motivo No Pedido
+                    'qdescom' => '0.00', // importe descuento comercial.
+                    'qdesigv' => $qdesigv, // importe descuento IGV.
+                    'qdesipm' => $qdesipm, // porcentaje IGV.
+                    'qdesisc' => '0.00', // importe descuento ISC.
+                    'qimptot' => $qimptot, // importe total sin impuestos.
+                    'qimpvta' => $qimpvta, // importe total venta incluye impuestos.
+                ];
+
+                foreach ($items as $item) {
+                    $comedi37 = new Comedi37(array_merge($item->except(['producto', 'qfaccon'])->all(), $comedi36y37dataExtra));
+                    $comedi37->save();
+                }
+            });
 
             $this->reset();
             $this->items = collect();
@@ -93,10 +100,13 @@ class Tomador extends Component
             Log::error($e->getMessage());
 
             $this->dispatch('pedido-error');
+
+            $items = $this->items;
+            $this->validandoImporteTotal($items);
         }
     }
 
-    public function generarNped()
+    private function generarNped()
     {
         $ultimoregistro = Comedi22::latest()->first(); //ultimo registro ordenado segun created_at
         $ndoc = $ultimoregistro->ndoc;
@@ -176,6 +186,78 @@ class Tomador extends Component
         $this->dispatch('mostrar_ventana_reinicio');
     }
 
+    public function agregarboni()
+    {
+        $this->reset(['producto', 'cantidad']);
+        $this->validandoCamposBoni();
+
+        $bonificacion = $this->bonificacion;
+        $cantidadboni = number_format($this->cantidadboni, 2, '.', '');
+        $items = $this->items;
+
+        $ctransa = '02'; // Código transacción: ‘01’:Venta, ‘02’: Promoción
+        $clistpr = '001'; // Código Lista de Precios
+        $prom = 'S'; // ‘S’: Es una promoción
+
+        $codPromocion = substr(trim($bonificacion), 0, 3);
+        $comedi26 = Comedi26::where('cprom', $codPromocion)->first();
+        //$comedi01 = Comedi01::where('cequiv', $codProducto)->first();
+
+        $mensaje = 'Bonificacion No Existe';
+
+        if ($items->contains('cprom', $codPromocion)) {
+            $comedi26 = null;
+            $mensaje = 'Bonificacion ya fue ingresado anteriormente';
+        }
+
+        if ($comedi26 != null  && Carbon::parse($comedi26->ffinpro)->addDay()->lt(now())) {
+            $comedi26 = null;
+            $mensaje = 'Bonificacion no esta activo';
+        }
+
+        // if ($comedi26 != null  && $cantidadboni >= $comedi26->comedi02->qsaldis) {
+        //     $comedi26 = null;
+        //     $mensaje = 'Stock insuficiente';
+        // }
+
+        $this->validandoBonificacion($comedi26, $mensaje);
+
+        $this->validandoUnidadesxPresentacionBoni($cantidadboni, 1);
+
+        $precio = number_format($comedi26->qprecio, 2, '.', '');
+
+        $importe = $this->calculoImporte($cantidadboni, $precio, 1) * (1 - ($comedi26->qpordes) / 100);
+
+        $item = collect();
+        $item->put('cequiv', substr($comedi26->ccodart1, -3)); // Código Equivalencia Artículo (cód.corto)
+        $item->put('ccodart', $comedi26->ccodart1); // Código de Artículo
+        $item->put('ctransa', $ctransa); // Código transacción: ‘01’:Venta, ‘02’: Promoción
+        $item->put('clistpr', $clistpr); // Código Lista de Precios
+        $item->put('qcanped', $cantidadboni); // Cantidad de pedido
+        // $item->put('qcanprom', $cantidad2); // Cantidad Promoción
+        $item->put('qpreuni', $precio); // Precio de artículo
+        $item->put('qimp', $importe); // Importe
+        $item->put('prom', $prom); // ‘S’: Es una promoción
+        $item->put('qdesc', '0.00'); // Importe de descuento
+        $item->put('qpordes', '0.00'); // Porcentaje de descuento
+        $item->put('qdesisc', '0.00'); // Importe de ISC(Impuesto Selectivo al consumo)
+        $item->put('cprom', $codPromocion); // Código de Promoción
+
+        $item->put('producto', $comedi26->tprom);
+        $item->put('qfaccon', 1);
+
+        $items->push($item);
+        $items = $items->sortBy('cequiv');
+
+        // Agregar el número de orden a cada elemento
+        $items = $this->numeroOrdenItem($items);
+
+        $this->items = $items;
+        $this->reset(['bonificacion', 'cantidadboni']);
+
+        $this->dispatch('mostrar_ventana_reinicio');
+    }
+
     public function eliminarItem($cequiv)
     {
         $items = $this->items;
@@ -186,7 +268,7 @@ class Tomador extends Component
         $this->items = $items;
     }
 
-    public function numeroOrdenItem($items)
+    private function numeroOrdenItem($items)
     {
         return $items->values()->map(function ($item, $index) {
             $item['citem'] = str_pad($index + 1, 3, '0', STR_PAD_LEFT);
@@ -194,7 +276,7 @@ class Tomador extends Component
         });
     }
 
-    public function calculoImporte($cantidad, $precio, $qfaccon)
+    private function calculoImporte($cantidad, $precio, $qfaccon)
     {
         $cantidadBultos = explode(localeconv()['decimal_point'], $cantidad)[0];
         $cantidadUnidades = explode(localeconv()['decimal_point'], $cantidad)[1];
@@ -204,7 +286,7 @@ class Tomador extends Component
         return number_format($importeXbultos + $importeXunidades, 2, '.', '');
     }
 
-    public function validandoUnidadesxPresentacion($cantidad, $qfaccon)
+    private function validandoUnidadesxPresentacion($cantidad, $qfaccon)
     {
         $unidades = explode(localeconv()['decimal_point'], $cantidad)[1];
 
@@ -223,7 +305,26 @@ class Tomador extends Component
         }
     }
 
-    public function validandoArticulo($comedi01, $mensaje)
+    private function validandoUnidadesxPresentacionBoni($cantidad, $qfaccon)
+    {
+        $unidades = explode(localeconv()['decimal_point'], $cantidad)[1];
+
+        if ($unidades >= $qfaccon) {
+            Validator::make(
+                [
+                    'cantidadboni' => null,
+                ],
+                [
+                    'cantidadboni' => 'required',
+                ],
+                [
+                    'required' => 'Cantidad no permitida (presentacion de ' . $qfaccon . ' unidades)',
+                ]
+            )->validated();
+        }
+    }
+
+    private function validandoArticulo($comedi01, $mensaje)
     {
         Validator::make(
             [
@@ -238,7 +339,22 @@ class Tomador extends Component
         )->validated();
     }
 
-    public function validandoCampos()
+    private function validandoBonificacion($comedi26, $mensaje)
+    {
+        Validator::make(
+            [
+                'bonificacion' => $comedi26,
+            ],
+            [
+                'bonificacion' => 'required',
+            ],
+            [
+                'required' => $mensaje,
+            ]
+        )->validated();
+    }
+
+    private function validandoCampos()
     {
         $this->validate(
             [
@@ -251,9 +367,40 @@ class Tomador extends Component
         );
     }
 
+    private function validandoCamposBoni()
+    {
+        $this->validate(
+            [
+                'bonificacion' => 'required',
+                'cantidadboni' => 'required|min:1',
+            ],
+            [
+                'required' => 'Campo requerido',
+            ]
+        );
+    }
+
+    private function validandoImporteTotal($items)
+    {
+        if ($items->sum('qimp') <= 0) {
+            Validator::make(
+                [
+                    'importetotal' => null,
+                ],
+                [
+                    'importetotal' => 'required',
+                ],
+                [
+                    'required' => 'Importe Total no valido',
+                ]
+            )->validated();
+        }
+    }
+
     public function render()
     {
         $comedi01s = Comedi01::all();
-        return view('livewire.tomador', compact('comedi01s'));
+        $comedi26s = Comedi26::all();
+        return view('livewire.tomador', compact('comedi01s', 'comedi26s'));
     }
 }

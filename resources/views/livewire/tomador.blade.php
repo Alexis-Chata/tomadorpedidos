@@ -8,7 +8,44 @@
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade" id="nav-cliente" role="tabpanel" aria-labelledby="nav-cliente-tab">...</div>
+        <div class="tab-pane fade pt-3 source-sans-pro" id="nav-cliente" role="tabpanel" aria-labelledby="nav-cliente-tab">
+            <br />
+            <form wire:submit.prevent="agregarcliente">
+                <div class="form-group m-0">
+                    <label>Cliente</label>
+                    <div class="text-danger">
+                        @error('cliente')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div>
+                        <input type="text" list="clientes" autofocus class="form-control col" wire:model="cliente" required>
+                    </div>
+
+                    <datalist id="clientes">
+                        @forelse ($comedi31s as $comedi31)
+                            <option value="{{ $comedi31->comedi07->ccli }} {{ $comedi31->comedi07->tcli }}"></option>
+                        @empty
+                        @endforelse
+                    </datalist>
+                </div>
+                <br>
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-primary">Agregar</button>
+                </div>
+            </form>
+            <br>
+            <br>
+            @if (!is_null($ccliente->comedi07))
+                <p class="m-0"><span>Cliente:</span> {{ $ccliente->comedi07->ccli }} - {{ $ccliente->comedi07->tcli }}</p>
+                <p class="m-0"><span>Direcc.:</span> {{ $ccliente->comedi07->tdir }}</p>
+                <p class="m-0"><span>Ruta:</span> {{ $ccliente->crut }}</p>
+                <p class="m-0"><span>List.Precios:</span> {{ $ccliente->comedi07->clistpr }}</p>
+                <p class="m-0"><span>Doc.Vta:</span> </p>
+                <br>
+            @endif
+
+        </div>
 
         <div class="tab-pane fade show active pt-3 source-sans-pro" id="nav-articulo" role="tabpanel" aria-labelledby="nav-articulo-tab">
 
@@ -121,7 +158,7 @@
                             {{ $message }}
                         @enderror
                     </div>
-                    <button type="button" class="btn btn-info" id="btnGuardar">Guardar</button>
+                    <button type="button" class="btn btn-info custom-focus-shadow" id="btnGuardar">Guardar</button>
                 </div>
             @endif
         </div>

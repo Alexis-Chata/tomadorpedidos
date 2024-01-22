@@ -132,6 +132,10 @@
         .select2-container--default .select2-selection--single {
             padding: .1rem .75rem;
         }
+
+        .custom-focus-shadow:focus {
+            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+        }
     </style>
 @stop
 

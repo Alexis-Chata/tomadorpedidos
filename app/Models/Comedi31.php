@@ -10,6 +10,8 @@ class Comedi31 extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['ccli'];
+
     public function comedi07(): HasOne
     {
         return $this->hasOne(Comedi07::class, 'ccli', 'ccli');

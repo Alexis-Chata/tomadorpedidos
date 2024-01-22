@@ -36,7 +36,7 @@
             </form>
             <br>
             <br>
-            @if (!is_null($ccliente->comedi07))
+            @if (!is_null($ccliente) && !is_null($ccliente->comedi07))
                 <p class="m-0"><span>Cliente:</span> {{ $ccliente->comedi07->ccli }} - {{ $ccliente->comedi07->tcli }}</p>
                 <p class="m-0"><span>Direcc.:</span> {{ $ccliente->comedi07->tdir }}</p>
                 <p class="m-0"><span>Ruta:</span> {{ $ccliente->crut }}</p>

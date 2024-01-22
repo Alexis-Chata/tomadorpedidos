@@ -379,7 +379,7 @@ class Tomador extends Component
 
         // dd($fluent, $fluent->toArray(), $fluent['ccli'], $fluent->ccli);
 
-        if (!is_null($this->ccliente->comedi07)) {
+        if (!is_null($this->ccliente) && !is_null($this->ccliente->comedi07)) {
             $clistpr = $this->ccliente->comedi07->clistpr ?? $clistpr;
         }
 

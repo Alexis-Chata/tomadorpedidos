@@ -37,4 +37,5 @@ Route::middleware([
     Route::get('articulos/{clistpr?}', [Comedi01Controller::class, 'index'])->name('tomadorpedidos.lista.precios');
     Route::get('promociones', [Comedi26Controller::class, 'index'])->name('tomadorpedidos.lista.promociones');
     Route::get('tomador', [Comedi36Controller::class, 'index'])->name('tomadorpedidos.tomador');
+    Route::post('tomador', [Comedi36Controller::class, 'index'])->name('tomadorpedidos.tomador.post');
 });

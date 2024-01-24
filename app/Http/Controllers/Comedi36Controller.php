@@ -5,16 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Comedi36;
 use App\Http\Requests\StoreComedi36Request;
 use App\Http\Requests\UpdateComedi36Request;
-use App\Models\Comedi01;
+use App\Models\Comedi31;
+use Illuminate\Support\Facades\Request;
 
 class Comedi36Controller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(StoreComedi36Request $request)
     {
-        return view('tomadorpedidos.tomador');
+        $ccliente = new Comedi31();
+        if(!is_null($request->ccliente)){
+            $ccliente = Comedi31::with('comedi07')->find($request->ccliente);
+        }
+        return view('tomadorpedidos.tomador', compact('ccliente'));
     }
 
     /**

@@ -23,7 +23,7 @@
         <!-- /.card-header -->
         <div class="card-body p-3">
 
-            <livewire:tomador />
+            <livewire:tomador :ccliente="$ccliente"/>
 
         </div>
         <!-- /.card-body -->

@@ -13,7 +13,8 @@ class Comedi31Controller extends Controller
      */
     public function index()
     {
-        $comedi31s = Comedi31::with('comedi07')->get();
+        $cven = auth()->user()->codVendedorAsignadosMain()->cven;
+        $comedi31s = Comedi31::with('comedi07')->where('cven', $cven)->get();
         return view('tomadorpedidos.clientes', compact('comedi31s'));
     }
 

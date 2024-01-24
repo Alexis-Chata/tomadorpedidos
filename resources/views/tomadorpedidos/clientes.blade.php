@@ -36,11 +36,19 @@
                 </thead>
                 <tbody>
                     @forelse ($comedi31s as $comedi31)
-                        <tr>
-                            <th scope="row">PE</th>
-                            <td class="cliente">{{ $comedi31->ccli }} - {{ $comedi31->comedi07->tnomrep }}<br> * {{ $comedi31->comedi07->tdir }}</td>
-                            <td>800.00</td>
-                        </tr>
+                    <tr>
+                        <th scope="row">PE</th>
+                        <form method="POST" action="{{ route('tomadorpedidos.tomador.post') }}">
+                        <td class="cliente">
+                                @csrf
+                                <input type="hidden" name="ccliente" value="{{ $comedi31->id }}">
+                                <button class="p-0 dropdown-item bg-danger-soft-hover" href="#">
+                                    {{ $comedi31->ccli }} - {{ $comedi31->comedi07->tnomrep }}<br> * {{ $comedi31->comedi07->tdir }}
+                                </button>
+                            </td>
+                        </form>
+                        <td>800.00</td>
+                    </tr>
                     @empty
                     @endforelse
                 </tbody>

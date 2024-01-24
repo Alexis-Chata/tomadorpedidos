@@ -26,12 +26,11 @@ class Tomador extends Component
     public $bonificacion, $cantidadboni;
     public $cliente;
     public Comedi31 $ccliente;
-    private $clistpr;
+    public $clistpr;
 
     public function mount()
     {
         $this->items = collect();
-        $this->ccliente = new Comedi31();
         $this->clistpr = $this->listaprecios();
     }
 
@@ -112,7 +111,6 @@ class Tomador extends Component
 
                     $comedi36 = new Comedi36(array_merge($comedi36, $comedi36y37dataExtra));
                     $comedi36->save();
-                    // dd($comedi36);
 
                     foreach ($items as $item) {
                         $comedi37 = new Comedi37(array_merge($item->except(['producto', 'qfaccon'])->all(), $comedi36y37dataExtra));
@@ -155,7 +153,6 @@ class Tomador extends Component
         $cantidad = number_format($this->cantidad, 2, '.', '');
         $items = $this->items;
 
-        $cven = auth()->user()->codVendedorAsignadosMain()->cven; // Código Prevendedor
         $ctransa = '01'; // Código transacción: ‘01’:Venta, ‘02’: Promoción
         $clistpr = $this->clistpr; // Código Lista de Precios
         $prom = ' '; // ‘S’: Es una promoción
@@ -230,7 +227,6 @@ class Tomador extends Component
         $cantidadboni = number_format($this->cantidadboni, 2, '.', '');
         $items = $this->items;
 
-        $cven = auth()->user()->codVendedorAsignadosMain()->cven; // Código Prevendedor
         $ctransa = '02'; // Código transacción: ‘01’:Venta, ‘02’: Promoción
         $clistpr = $this->clistpr; // Código Lista de Precios
         $prom = 'S'; // ‘S’: Es una promoción
@@ -302,7 +298,6 @@ class Tomador extends Component
         $ccli = explode(' ', $ccli)[0];
         $ccli = str_pad($ccli, 6, '0', STR_PAD_LEFT);
         $ccli = strlen($ccli) == 6 ? '07' . $ccli : str_pad($ccli, 8, '0', STR_PAD_LEFT); // 8digitos
-        //dd($ccli);
         $cven = auth()->user()->codVendedorAsignadosMain()->cven;
         $comedi31 = Comedi31::with('comedi07')->where('ccli', $ccli)->first();
         $mensaje = 'Campo Requerido';

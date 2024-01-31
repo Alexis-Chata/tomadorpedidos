@@ -27,6 +27,7 @@ class Tomador extends Component
     public $cliente;
     public Comedi31 $ccliente;
     public $clistpr;
+    public $docvta;
 
     public function mount()
     {
@@ -60,8 +61,7 @@ class Tomador extends Component
                     $cven = auth()->user()->codVendedorAsignadosMain()->cven; // Código Prevendedor
                     $comedi31 = $this->ccliente; // Código de Cliente
                     $clin = '00'; // Código Línea Preventista
-                    $cletd = '0'; // | ‘ ‘: Nota Ped. | ‘F’:FE | ‘B’:BE |
-                    $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                    [$cletd, $ctip] = $this->docventa();
                     $cconpag = ' '; // Código Política Crédito
                     $plazo = '0'; // Plazo de pago
                     $cflagst = ' '; // Estatus Pedido: | ’ ’:Pendiente | ‘R’:Recibido |
@@ -121,6 +121,7 @@ class Tomador extends Component
                 $this->reset();
                 $this->items = collect();
                 $this->ccliente = new Comedi31();
+                $this->clistpr = $this->listaprecios();
                 $this->dispatch('pedido-created');
             } catch (Exception $e) {
                 // Manejar la excepción
@@ -142,6 +143,31 @@ class Tomador extends Component
         $ultimoregistro->ndoc = $nped;
         $ultimoregistro->save();
         return $nped;
+    }
+
+    private function docventa()
+    {
+        switch ($this->docvta) {
+            case 1:
+                $cletd = 'F'; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
+                $ctip = '1'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+
+            case 2:
+                $cletd = 'B'; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
+                $ctip = '2'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+            case 3:
+                $cletd = ' '; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
+                $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+
+            default:
+                $cletd = ' '; // | ‘F’:FE | ‘B’:BE | ‘ ‘: Nota Ped. |
+                $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+        }
+        return [$cletd, $ctip];
     }
 
     public function agregar()
@@ -301,6 +327,10 @@ class Tomador extends Component
         $cven = auth()->user()->codVendedorAsignadosMain()->cven;
         $comedi31 = Comedi31::with('comedi07')->where('ccli', $ccli)->first();
         $mensaje = 'Campo Requerido';
+        $this->docvta = 2;
+        if (!is_null($comedi31->comedi07->cruc)) {
+            $this->docvta = 1;
+        }
 
         if (is_null($comedi31)) {
             $mensaje = "Cliente no existe";

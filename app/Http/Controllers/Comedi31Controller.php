@@ -14,8 +14,18 @@ class Comedi31Controller extends Controller
     public function index()
     {
         $cven = auth()->user()->codVendedorAsignadosMain()->cven;
-        $comedi31s = Comedi31::with('comedi07')->where('cven', $cven)->get();
-        return view('tomadorpedidos.clientes', compact('comedi31s'));
+        $comedi31s = Comedi31::with(['comedi07', 'comedi36snow'])->where('cven', $cven)->get();
+        $comedi31s->load('comedi36snow');
+
+        $totalQimpvta = $comedi31s->sum(function ($comedi31) {
+            return $comedi31->comedi36snow->sum('qimpvta');
+        });
+
+        $countComedi31sWithComedi36Snow = $comedi31s->filter(function ($comedi31) {
+            return $comedi31->comedi36snow->isNotEmpty();
+        })->count();
+
+        return view('tomadorpedidos.clientes', compact('comedi31s', 'totalQimpvta', 'countComedi31sWithComedi36Snow'));
     }
 
     /**

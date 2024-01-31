@@ -11,7 +11,8 @@
 
     <div class="card card-outline card-primary mb-5">
         <div class="card-header">
-            <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2" role="button"></i></a>Clientes</h3>
+            <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2"
+                        role="button"></i></a>Clientes</h3>
             <div class="card-tools d-flex" style="gap: 5px;">
                 <!-- Buttons, labels, and many other things can be placed here! -->
                 <!-- Here is a label for example -->
@@ -23,7 +24,8 @@
         <!-- /.card-header -->
         <div class="card-body p-3">
             <div class="col-12 mb-3">
-                <input class="form-control" type="text" name="buscador" id="buscador" placeholder="Buscar Cliente..." autofocus>
+                <input class="form-control" type="text" name="buscador" id="buscador" placeholder="Buscar Cliente..."
+                    autofocus>
             </div>
 
             <table class="styled-table">
@@ -36,19 +38,20 @@
                 </thead>
                 <tbody>
                     @forelse ($comedi31s as $comedi31)
-                    <tr>
-                        <th scope="row">PE</th>
-                        <form method="POST" action="{{ route('tomadorpedidos.tomador.post') }}">
-                        <td class="cliente">
-                                @csrf
-                                <input type="hidden" name="ccliente" value="{{ $comedi31->id }}">
-                                <button class="p-0 dropdown-item bg-danger-soft-hover" href="#">
-                                    {{ $comedi31->ccli }} - {{ $comedi31->comedi07->tnomrep }}<br> * {{ $comedi31->comedi07->tdir }}
-                                </button>
-                            </td>
-                        </form>
-                        <td>800.00</td>
-                    </tr>
+                        <tr>
+                            <th scope="row">PE</th>
+                            <form method="POST" action="{{ route('tomadorpedidos.tomador.post') }}">
+                                <td class="cliente">
+                                    @csrf
+                                    <input type="hidden" name="ccliente" value="{{ $comedi31->id }}">
+                                    <button class="p-0 dropdown-item bg-danger-soft-hover" href="#">
+                                        {{ $comedi31->ccli }} - {{ $comedi31->comedi07->tnomrep }}<br> *
+                                        {{ $comedi31->comedi07->tdir }}
+                                    </button>
+                                </td>
+                            </form>
+                            <td>{{ number_format($comedi31->comedi36snow->sum('qimpvta'), 2) }}</td>
+                        </tr>
                     @empty
                     @endforelse
                 </tbody>
@@ -78,11 +81,11 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">40</th>
+                <th scope="row">{{ $comedi31s->count() }}</th>
                 <td>7</td>
-                <td>5</td>
-                <td>12.50%</td>
-                <td>3350.00</td>
+                <td>{{ $countComedi31sWithComedi36Snow }}</td>
+                <td>{{ number_format(($countComedi31sWithComedi36Snow / $comedi31s->count()) * 100, 2) }} %</td>
+                <td>{{ number_format($totalQimpvta, 2) }}</td>
             </tr>
         </tbody>
         {{-- <tfoot>

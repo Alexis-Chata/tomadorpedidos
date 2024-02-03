@@ -51,7 +51,7 @@ class Comedi07Factory extends Factory
             "tdesfigv" => "no exonerado de IGV.",
             "tdocid" => "01",
             "tdestdoc" => "persona natural",
-            "clistpr" => "001",
+            "clistpr" => $this->faker->randomElement(['001', '002']),
             "tdeslpre" => "precios bodega",
             "cuser" => 'SISTEMA1',
             "cidpr" => 'FMUEV01    I',

@@ -33,12 +33,14 @@ class Tomador extends Component
     {
         $this->items = collect();
         $this->clistpr = $this->listaprecios();
+        $this->asignandoDocvta($this->ccliente);
     }
 
     #[On('registrar-pedido')]
     public function guardarPedido()
     {
         Cache::lock('guardar pedido')->block(15, function () {
+            $this->validandoDocvta();
             try {
 
                 DB::transaction(function () {
@@ -58,7 +60,7 @@ class Tomador extends Component
                     $qdesigv = number_format(($qimpvta * $qdesipm) / 100, 2, '.', ''); // importe descuento IGV.
                     $qimptot = number_format($qimpvta - $qdesigv, 2, '.', ''); // importe total sin impuestos.
 
-                    $cven = auth()->user()->codVendedorAsignadosMain()->cven; // Código Prevendedor
+                    $cven = $this->codVendedorAsignadoMain(); // Código Prevendedor
                     $comedi31 = $this->ccliente; // Código de Cliente
                     $clin = '00'; // Código Línea Preventista
                     [$cletd, $ctip] = $this->docventa();
@@ -133,41 +135,6 @@ class Tomador extends Component
                 $this->validandoImporteTotal($items);
             }
         });
-    }
-
-    private function generarNped()
-    {
-        $ultimoregistro = Comedi22::latest()->first(); //ultimo registro ordenado segun created_at
-        $ndoc = $ultimoregistro->ndoc;
-        $nped = str_pad($ndoc + 1, 10, '0', STR_PAD_LEFT);
-        $ultimoregistro->ndoc = $nped;
-        $ultimoregistro->save();
-        return $nped;
-    }
-
-    private function docventa()
-    {
-        switch ($this->docvta) {
-            case 1:
-                $cletd = 'F'; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
-                $ctip = '1'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-                break;
-
-            case 2:
-                $cletd = 'B'; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
-                $ctip = '2'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-                break;
-            case 3:
-                $cletd = ' '; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
-                $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-                break;
-
-            default:
-                $cletd = ' '; // | ‘F’:FE | ‘B’:BE | ‘ ‘: Nota Ped. |
-                $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
-                break;
-        }
-        return [$cletd, $ctip];
     }
 
     public function agregar()
@@ -324,13 +291,10 @@ class Tomador extends Component
         $ccli = explode(' ', $ccli)[0];
         $ccli = str_pad($ccli, 6, '0', STR_PAD_LEFT);
         $ccli = strlen($ccli) == 6 ? '07' . $ccli : str_pad($ccli, 8, '0', STR_PAD_LEFT); // 8digitos
-        $cven = auth()->user()->codVendedorAsignadosMain()->cven;
+        $cven = $this->codVendedorAsignadoMain();
         $comedi31 = Comedi31::with('comedi07')->where('ccli', $ccli)->first();
         $mensaje = 'Campo Requerido';
-        $this->docvta = 2;
-        if (!is_null($comedi31->comedi07->cruc)) {
-            $this->docvta = 1;
-        }
+        $this->asignandoDocvta($comedi31);
 
         if (is_null($comedi31)) {
             $mensaje = "Cliente no existe";
@@ -358,6 +322,17 @@ class Tomador extends Component
         $this->ccliente = $comedi31;
     }
 
+    private function asignandoDocvta($comedi31)
+    {
+        $this->docvta = 2;
+        if ((optional($comedi31->comedi07)->clistpr) == '002') {
+            $this->docvta = 3;
+        }
+        if (!is_null(optional($comedi31->comedi07)->cruc)) {
+            $this->docvta = 1;
+        }
+    }
+
     public function eliminarItem($cequiv)
     {
         $items = $this->items;
@@ -368,9 +343,49 @@ class Tomador extends Component
         $this->items = $items;
     }
 
+    private function codVendedorAsignadoMain()
+    {
+        return auth()->user()->codVendedorAsignadosMain()->cven;
+    }
+
+    private function generarNped()
+    {
+        $ultimoregistro = Comedi22::latest()->first(); //ultimo registro ordenado segun created_at
+        $ndoc = $ultimoregistro->ndoc;
+        $nped = str_pad($ndoc + 1, 10, '0', STR_PAD_LEFT);
+        $ultimoregistro->ndoc = $nped;
+        $ultimoregistro->save();
+        return $nped;
+    }
+
+    private function docventa()
+    {
+        switch ($this->docvta) {
+            case 1:
+                $cletd = 'F'; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
+                $ctip = '1'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+
+            case 2:
+                $cletd = 'B'; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
+                $ctip = '2'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+            case 3:
+                $cletd = ' '; // | ‘F’: FE | ‘B’: BE | ‘ ‘: Nota Ped. |
+                $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+
+            default:
+                $cletd = ' '; // | ‘F’:FE | ‘B’:BE | ‘ ‘: Nota Ped. |
+                $ctip = '3'; // | ‘1’: Factura |  ‘2’: Boleta | ‘3’: Nota Pedido |
+                break;
+        }
+        return [$cletd, $ctip];
+    }
+
     private function listaprecios()
     {
-        $cven = auth()->user()->codVendedorAsignadosMain()->cven;
+        $cven = $this->codVendedorAsignadoMain();
         $clientes = Comedi31::with('comedi07:ccli,clistpr')->where('cven', $cven)->get();
 
         // Definir los tipos de clientes (puedes obtener estos datos de tu base de datos)
@@ -510,6 +525,18 @@ class Tomador extends Component
         );
     }
 
+    private function validandoDocvta()
+    {
+        $this->validate(
+            [
+                'docvta' => 'required',
+            ],
+            [
+                'required' => 'Doc.Venta requerido',
+            ]
+        );
+    }
+
     private function validandoCamposBoni()
     {
         $this->validate(
@@ -542,7 +569,7 @@ class Tomador extends Component
 
     public function render()
     {
-        $cven = auth()->user()->codVendedorAsignadosMain()->cven;
+        $cven = $this->codVendedorAsignadoMain();
         $comedi01s = Comedi01::all();
         $comedi26s = Comedi26::all();
         $comedi31s = Comedi31::with('comedi07')->where('cven', $cven)->get();

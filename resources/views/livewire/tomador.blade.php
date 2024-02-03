@@ -199,6 +199,9 @@
                         @error('importetotal')
                             {{ $message }}
                         @enderror
+                        @error('docvta')
+                            {{ $message }}
+                        @enderror
                     </div>
                     <button type="button" class="btn btn-info custom-focus-shadow" id="btnGuardar">Guardar</button>
                 </div>
@@ -219,7 +222,7 @@
 
         $wire.on('pedido-error', () => {
             Swal.fire({
-                title: "¡Oops... Algo paso!",
+                title: "¡Uups... Algo paso!",
                 text: "No se pudo grabar el pedido, intentelo nuevamente.",
                 icon: "error"
             });

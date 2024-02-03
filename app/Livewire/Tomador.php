@@ -41,6 +41,7 @@ class Tomador extends Component
     {
         Cache::lock('guardar pedido')->block(15, function () {
             $this->validandoDocvta();
+            $this->validandoCliente();
             try {
 
                 DB::transaction(function () {
@@ -208,7 +209,7 @@ class Tomador extends Component
         $this->items = $items;
         $this->reset(['producto', 'cantidad']);
 
-        $this->dispatch('mostrar_ventana_reinicio');
+        $this->dispatch('mostrar_ventana_confirmacion');
     }
 
     public function agregarboni()
@@ -280,7 +281,7 @@ class Tomador extends Component
         $this->items = $items;
         $this->reset(['bonificacion', 'cantidadboni']);
 
-        $this->dispatch('mostrar_ventana_reinicio');
+        $this->dispatch('mostrar_ventana_confirmacion');
     }
 
     public function agregarcliente()
@@ -320,15 +321,16 @@ class Tomador extends Component
         )->validated();
 
         $this->ccliente = $comedi31;
+        $this->clistpr = $this->listaprecios();
     }
 
     private function asignandoDocvta($comedi31)
     {
         $this->docvta = 2;
-        if ((optional($comedi31->comedi07)->clistpr) == '002') {
+        if ((optional(optional($comedi31)->comedi07)->clistpr) == '002') {
             $this->docvta = 3;
         }
-        if (!is_null(optional($comedi31->comedi07)->cruc)) {
+        if (!is_null(optional(optional($comedi31)->comedi07)->cruc)) {
             $this->docvta = 1;
         }
     }
@@ -535,6 +537,21 @@ class Tomador extends Component
                 'required' => 'Doc.Venta requerido',
             ]
         );
+    }
+
+    private function validandoCliente()
+    {
+        Validator::make(
+            [
+                'clienterequerido' => optional(optional($this->ccliente)->comedi07)->ccli,
+            ],
+            [
+                'clienterequerido' => 'required',
+            ],
+            [
+                'required' => 'Cliente requerido',
+            ]
+            )->validated();
     }
 
     private function validandoCamposBoni()

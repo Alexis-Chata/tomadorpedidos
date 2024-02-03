@@ -143,7 +143,7 @@
 
 @section('js')
     <script>
-        window.Livewire.on('mostrar_ventana_reinicio', () => {
+        window.Livewire.on('mostrar_ventana_confirmacion', () => {
 
             setTimeout(() => {
                 btnguardar = document.getElementById('btnGuardar');

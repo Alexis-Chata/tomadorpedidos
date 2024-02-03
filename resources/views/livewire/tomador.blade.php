@@ -202,6 +202,9 @@
                         @error('docvta')
                             {{ $message }}
                         @enderror
+                        @error('clienterequerido')
+                            {{ $message }}
+                        @enderror
                     </div>
                     <button type="button" class="btn btn-info custom-focus-shadow" id="btnGuardar">Guardar</button>
                 </div>

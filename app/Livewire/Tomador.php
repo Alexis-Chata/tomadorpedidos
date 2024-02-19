@@ -322,6 +322,7 @@ class Tomador extends Component
 
         $this->ccliente = $comedi31;
         $this->clistpr = $this->listaprecios();
+        $this->actualizarPrecios();
     }
 
     private function asignandoDocvta($comedi31)
@@ -551,7 +552,7 @@ class Tomador extends Component
             [
                 'required' => 'Cliente requerido',
             ]
-            )->validated();
+        )->validated();
     }
 
     private function validandoCamposBoni()
@@ -582,6 +583,24 @@ class Tomador extends Component
                 ]
             )->validated();
         }
+    }
+
+    public function actualizarPrecios()
+    {
+        // dd($this->items);
+        $comedi01s = Comedi01::with(["comedilps"])->get();
+        // dd($comedi01->first(), $precio);
+        $this->items = $this->items->map(function ($item) use ($comedi01s) {
+            $item->put('clistpr', $this->clistpr);
+            if ($item->get('ctransa') == "01") {
+                $comedi01 = $comedi01s->where('cequiv', $item->get('cequiv'))->first();
+                $precio = number_format($comedi01->comedilps->where('clistpr', $this->clistpr)->first()->qprecio, 2, '.', '');
+                $importe = $this->calculoImporte($item->get('qcanped'), $precio, $comedi01->qfaccon);
+                $item->put('qpreuni', $precio);
+                $item->put('qimp', $importe);
+            }
+            return $item;
+        });
     }
 
     public function render()

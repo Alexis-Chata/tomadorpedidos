@@ -54,23 +54,23 @@
                 <div class="m-0"><span>Doc.Vta:</span>
                     @if (!is_null($ccliente->comedi07->cruc))
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="docvta" wire:model="docvta" id="inlineRadio1"
-                                value="1">
-                            <label class="form-check-label" for="inlineRadio1">Factura</label>
+                            <input class="form-check-input" type="radio" name="docvta" wire:model="docvta"
+                                id="inlineRadio1" value="1" role="button">
+                            <label class="form-check-label" for="inlineRadio1" role="button">Factura</label>
                         </div>
                     @else
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="docvta" wire:model="docvta" id="inlineRadio2"
-                                value="2">
-                            <label class="form-check-label" for="inlineRadio2">Boleta</label>
+                            <input class="form-check-input" type="radio" name="docvta" wire:model="docvta"
+                                id="inlineRadio2" value="2" role="button">
+                            <label class="form-check-label" for="inlineRadio2" role="button">Boleta</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="docvta" wire:model="docvta" id="inlineRadio3"
-                                value="3">
-                            <label class="form-check-label" for="inlineRadio3">Nota Pedido</label>
+                            <input class="form-check-input" type="radio" name="docvta" wire:model="docvta"
+                                id="inlineRadio3" value="3" role="button">
+                            <label class="form-check-label" for="inlineRadio3" role="button">Nota Pedido</label>
                         </div>
                     @endif
-                    </div>
+                </div>
                 <br>
             @endif
 
@@ -81,6 +81,22 @@
 
             <br />
             <form wire:submit.prevent="agregar">
+                @if ((!is_null($ccliente) && !is_null($ccliente->comedi07)) or $items->count())
+                    <p class="m-0"><span>List.Precios:</span> {{ $clistpr }}</p>
+                @else
+                    <div class="m-0"><span>List.Precio:</span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="clistpr" wire:model="clistpr"
+                                id="inlineRadioclistpr1" value="001" role="button">
+                            <label class="form-check-label" for="inlineRadioclistpr1" role="button">001</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="clistpr" wire:model="clistpr"
+                                id="inlineRadioclistpr2" value="002" role="button">
+                            <label class="form-check-label" for="inlineRadioclistpr2" role="button">002</label>
+                        </div>
+                    </div>
+                @endif
                 <div class="form-group m-0">
                     <label>Articulo</label>
                     <div class="text-danger">
@@ -172,7 +188,7 @@
                 @forelse ($items as $item)
                     <span class="w-px-40 justify-content-end">{{ $item->get('citem') }} | </span>
                     <span class="w-px-250">
-                        {{ $item->get('cequiv') . ' ' . $item->get('producto') . ' - ' . $item->get('qfaccon') }}</span><span>|</span>
+                        {{ $item->get('cequiv') . ' ' . $item->get('producto') . ' - ' . $item->get('clistpr') }}</span><span>|</span>
                     <span
                         class="w-px-55 justify-content-end font-weight-bold">{{ number_format($item->get('qcanped'), 2, '.', ' ') }}
                         |</span>

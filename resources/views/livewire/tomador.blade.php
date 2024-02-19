@@ -2,16 +2,16 @@
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link" id="nav-cliente-tab" data-toggle="tab" data-target="#nav-cliente" type="button"
-                role="tab" aria-controls="nav-cliente" aria-selected="false">Cliente</button>
+                role="tab" aria-controls="nav-cliente" aria-selected="false" wire:ignore.self>Cliente</button>
             <button class="nav-link active" id="nav-articulo-tab" data-toggle="tab" data-target="#nav-articulo"
-                type="button" role="tab" aria-controls="nav-articulo" aria-selected="true">Articulo</button>
+                type="button" role="tab" aria-controls="nav-articulo" aria-selected="true" wire:ignore.self>Articulo</button>
             <button class="nav-link" id="nav-extras-tab" data-toggle="tab" data-target="#nav-extras" type="button"
-                role="tab" aria-controls="nav-extras" aria-selected="false">Extras</button>
+                role="tab" aria-controls="nav-extras" aria-selected="false" wire:ignore.self>Extras</button>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade pt-3 source-sans-pro" id="nav-cliente" role="tabpanel"
-            aria-labelledby="nav-cliente-tab">
+            aria-labelledby="nav-cliente-tab" wire:ignore.self>
             <br />
             <form wire:submit.prevent="agregarcliente">
                 <div class="form-group m-0">
@@ -77,14 +77,14 @@
         </div>
 
         <div class="tab-pane fade show active pt-3 source-sans-pro" id="nav-articulo" role="tabpanel"
-            aria-labelledby="nav-articulo-tab">
+            aria-labelledby="nav-articulo-tab" wire:ignore.self>
 
             <br />
             <form wire:submit.prevent="agregar">
-                @if ((!is_null($ccliente) && !is_null($ccliente->comedi07)) or $items->count())
-                    <p class="m-0"><span>List.Precios:</span> {{ $clistpr }}</p>
+                @if (!is_null($ccliente) && !is_null($ccliente->comedi07) or $items->count())
+                    <p class="m-0 mb-2"><span>List.Precios:</span> {{ $clistpr }}</p>
                 @else
-                    <div class="m-0"><span>List.Precio:</span>
+                    <div class="m-0 mb-2"><span>List.Precio:</span>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="clistpr" wire:model="clistpr"
                                 id="inlineRadioclistpr1" value="001" role="button">
@@ -136,7 +136,7 @@
         </div>
 
         <div class="tab-pane fade pt-3 source-sans-pro" id="nav-extras" role="tabpanel"
-            aria-labelledby="nav-extras-tab">
+            aria-labelledby="nav-extras-tab" wire:ignore.self>
             <br />
             <form wire:submit.prevent="agregarboni">
                 <div class="form-group m-0">

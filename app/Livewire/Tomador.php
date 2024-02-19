@@ -286,7 +286,6 @@ class Tomador extends Component
 
     public function agregarcliente()
     {
-
         $cliente = trim($this->cliente);
         $ccli = trim(substr($cliente, 0, 8));
         $ccli = explode(' ', $ccli)[0];
@@ -305,7 +304,7 @@ class Tomador extends Component
             $mensaje = "Cliente no pertenece";
         }
 
-        $this->reset(['ccliente']);
+        $this->reset(['ccliente', 'cliente']);
         $this->resetValidation(['cliente']);
 
         Validator::make(

@@ -118,6 +118,7 @@ class Tomador extends Component
                     foreach ($items as $item) {
                         $comedi37 = new Comedi37(array_merge($item->except(['producto', 'qfaccon'])->all(), $comedi36y37dataExtra));
                         $comedi37->save();
+                        $this->descontarStock($item->get('cequiv'), $item->get('qcanped'));
                     }
                 });
 
@@ -138,6 +139,30 @@ class Tomador extends Component
         });
     }
 
+    private function descontarStock($codProducto, $cantidadDescontar)
+    {
+        $comedi01 = Comedi01::where('cequiv', $codProducto)->first();
+        $stockUnidades = $this->convertirAunidades($comedi01->comedi02->qsaldis, $comedi01->qfaccon);
+        $unidadesDescontar = $this->convertirAunidades($cantidadDescontar, $comedi01->qfaccon);
+        $nuevoStockUnidades = $stockUnidades - $unidadesDescontar;
+        $comedi01->comedi02->qsaldis = floor($nuevoStockUnidades / $comedi01->qfaccon) + ($nuevoStockUnidades % $comedi01->qfaccon) / 100;
+        $this->validandoUnidadesxPresentacion($comedi01->comedi02->qsaldis, $comedi01->qfaccon);
+        $comedi01->comedi02->save();
+    }
+
+    private function convertirAunidades($cantidad, $qfaccon)
+    {
+        $cantidad = $this->number_format_2decimales($cantidad);
+        $bultos = $this->number_format_2decimales(floor($cantidad));
+        $unidades = $this->number_format_2decimales(fmod($cantidad, 1) * 100);
+        return ($bultos * $qfaccon) + $unidades;
+    }
+
+    private function number_format_2decimales($number)
+    {
+        return number_format($number, 2, '.', '');
+    }
+
     public function agregar()
     {
         $this->reset(['bonificacion', 'cantidadboni']);
@@ -155,6 +180,11 @@ class Tomador extends Component
         $qdesisc = 0.00; // Importe de ISC(Impuesto Selectivo al consumo)
 
         $codProducto = substr(trim($producto), 0, 3);
+        $codProducto = match (strlen($codProducto)) {
+            1 => "00" . $codProducto,
+            2 => "0" . $codProducto,
+            default => $codProducto,
+        };
         $comedi01 = Comedi01::where('cequiv', $codProducto)->first();
 
         $mensaje = 'Articulo No Existe';
@@ -169,9 +199,9 @@ class Tomador extends Component
             $mensaje = 'Articulo no esta activo';
         }
 
-        if ($comedi01 != null  && $cantidad >= $comedi01->comedi02->qsaldis) {
-            $comedi01 = null;
+        if ($comedi01 != null  && $cantidad > $comedi01->comedi02->qsaldis) {
             $mensaje = 'Stock insuficiente';
+            $comedi01 = null;
         }
 
         $this->validandoArticulo($comedi01, $mensaje);
@@ -448,6 +478,7 @@ class Tomador extends Component
 
     private function validandoUnidadesxPresentacion($cantidad, $qfaccon)
     {
+        $cantidad = number_format($cantidad, 2, '.', '');
         $unidades = explode(localeconv()['decimal_point'], $cantidad)[1];
 
         if ($unidades >= $qfaccon) {

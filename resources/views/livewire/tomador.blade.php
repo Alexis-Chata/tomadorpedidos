@@ -37,7 +37,7 @@
                 <div class="d-flex justify-content-start">
                     <button class="btn btn-primary">Agregar</button>
                 </div>
-            </form>
+
             <br>
             <br>
             @if (!is_null($ccliente) && !is_null($ccliente->comedi07))
@@ -73,6 +73,7 @@
                 </div>
                 <br>
             @endif
+        </form>
 
         </div>
 
@@ -196,8 +197,8 @@
                         |</span>
                     <span
                         class="w-px-70 justify-content-end font-weight-bold">{{ number_format($item->get('qimp'), 2, '.', ' ') }}</span>
-                    <i role="button" class="fas fa-times text-danger ml-3 p-1"
-                        wire:click="eliminarItem('{{ $item->get('cequiv') }}')"></i>
+                    <i class="fas fa-times text-danger ml-3 p-1 cursor-pointer" id="icon-{{ $item->get('cequiv') }}"
+                        wire:click="eliminarItem('{{ $item->get('cequiv') }}')" wire:loading.class.remove="cursor-pointer" wire:loading.class="pointer-events-none" wire:loading.attr="disabled" wire:target="eliminarItem*, agregarcliente, guardarPedido, agregar, agregarboni"></i>
                     <br>
                 @empty
                 @endforelse
@@ -222,7 +223,7 @@
                             {{ $message }}
                         @enderror
                     </div>
-                    <button type="button" class="btn btn-info custom-focus-shadow" id="btnGuardar">Guardar</button>
+                    <button type="button" class="btn btn-info custom-focus-shadow" id="btnGuardar" wire:loading.attr="disabled" wire:target="eliminarItem*, agregarcliente, guardarPedido, agregar, agregarboni">Guardar</button>
                 </div>
             @endif
         </div>

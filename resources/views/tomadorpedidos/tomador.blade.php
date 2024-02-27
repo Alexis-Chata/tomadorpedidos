@@ -11,7 +11,8 @@
 
     <div class="card card-outline card-primary mb-5">
         <div class="card-header">
-            <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2" role="button"></i></a>Tomador Pedidos</h3>
+            <h3 class="card-title"><a class="text-dark" href="{{ route('dashboard') }}"><i class="fas fa-reply pr-2"
+                        role="button"></i></a>Tomador Pedidos</h3>
             <div class="card-tools d-flex" style="gap: 5px;">
                 <!-- Buttons, labels, and many other things can be placed here! -->
                 <!-- Here is a label for example -->
@@ -23,7 +24,7 @@
         <!-- /.card-header -->
         <div class="card-body p-3">
 
-            <livewire:tomador :ccliente="$ccliente"/>
+            <livewire:tomador :ccliente="$ccliente" />
 
         </div>
         <!-- /.card-body -->
@@ -136,6 +137,14 @@
         .custom-focus-shadow:focus {
             box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
         }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        .pointer-events-none {
+            pointer-events: none;
+        }
     </style>
 @stop
 
@@ -159,7 +168,7 @@
                         confirmButtonText: "Confirmar, Guardar Pedido"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            {{-- @this.dispatch('registrar-pedido'); --}}
+                            window.livewire.guardarPedido = true;
                             Livewire.dispatch('registrar-pedido');
                         }
                     });

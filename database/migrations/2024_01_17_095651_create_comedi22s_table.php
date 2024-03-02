@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comedi22s', function (Blueprint $table) {
+        Schema::create('comedi22', function (Blueprint $table) {
             // Maestro Correlativo de pedidos.
             $table->id();
             $table->char('ccia', 2); // Código de Compañia
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comedi22s');
+        Schema::dropIfExists('comedi22');
     }
 };

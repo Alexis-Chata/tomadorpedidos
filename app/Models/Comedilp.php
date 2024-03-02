@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Comedilp extends Model
 {
     use HasFactory;
+
+    protected $table = 'comedilp';
 }

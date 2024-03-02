@@ -10,6 +10,8 @@ class Comedi01 extends Model
 {
     use HasFactory;
 
+    protected $table = 'comedi01';
+
     /**
      * Get the Comedi02(stock) associated with the Comedi01(Producto).
      */

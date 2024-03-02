@@ -9,6 +9,8 @@ class Comedi36 extends Model
 {
     use HasFactory;
 
+    protected $table = 'comedi36';
+
     protected $fillable = [
         // Cabecera de Pedido
         //$table->id();

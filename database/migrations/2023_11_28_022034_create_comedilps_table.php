@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comedilps', function (Blueprint $table) {
+        Schema::create('comedilp', function (Blueprint $table) {
             // Lista de Precios por Artículos
             $table->id();
             $table->char('ccia', 2); // Código de Compañia
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comedilps');
+        Schema::dropIfExists('comedilp');
     }
 };

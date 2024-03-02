@@ -9,6 +9,8 @@ class Comedi37 extends Model
 {
     use HasFactory;
 
+    protected $table = 'comedi37';
+
     protected $fillable = [
         // Detalle de Pedido
         // $table->id();

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comedi36s', function (Blueprint $table) {
+        Schema::create('comedi36', function (Blueprint $table) {
             // Cabecera de Pedido
             $table->id();
             $table->char('ccia', 2); // Código de Compañia
@@ -55,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comedi36s');
+        Schema::dropIfExists('comedi36');
     }
 };

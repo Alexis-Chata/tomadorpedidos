@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comedi07s', function (Blueprint $table) {
+        Schema::create('comedi07', function (Blueprint $table) {
             // Maestro de Clientes
             $table->id();
             $table->char('cter', 2); // código de territorio.
@@ -63,6 +63,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comedi07s');
+        Schema::dropIfExists('comedi07');
     }
 };

@@ -13,7 +13,7 @@ class Comedi01Controller extends Controller
      */
     public function index()
     {
-        $comedi01s = Comedi01::all();
+        $comedi01s = Comedi01::with('comedilps')->get();
         //dd($comedi01s[0]);
         return view('tomadorpedidos.articulos', compact('comedi01s'));
     }
